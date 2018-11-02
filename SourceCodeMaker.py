@@ -38,25 +38,29 @@ class SourceCodeMaker(object):
     
     def _get_final_source_code(self):
         """ Main function that creates the source code of the class """
-        # source = inspect.getsource(self.class_name)
+
         class_lines = inspect.getsource(self.class_name)
         classLine = class_lines.splitlines()[0]
         attributes_source = self._get_all_attributes_source()
         method_source = self._get_all_methods_source()
         
-        return "\n" + classLine + "\n\n" + attributes_source + "\n" + method_source
+        return "\n" + classLine + "\n\n" + attributes_source + method_source
 
     def _get_all_attributes_source(self):
 
         attrs = ""
-        print()
 
         for attribute in self.attributes:
-            print(attribute)
-        
-        print()
-        
-        return "    name = 3"
+            attrs += "    " + str(attribute[0]) + " = "
+            
+            if type(attribute[1]) == type(str()):
+                attrs += '"' + str(attribute[1]) + '"'
+            elif type(attribute[1]) == type(int()):
+                attrs += str(attribute[1]) 
+
+            attrs += "\n"
+                    
+        return attrs
 
     def _get_all_methods_source(self):
         

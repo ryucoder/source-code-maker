@@ -1,17 +1,12 @@
+""" 
+Purpose: This file is the basic example of the test data classes that will be 
+used to show the output of the SourceCodeMaker.
 
-
-
-
-def one():
-    print("One")
-
-
-def two():
-    print("Two")
+"""
 
 class Base:
     name = "Default-Name"
-    
+
     @classmethod
     def main():
         print("Base Main")
@@ -19,8 +14,10 @@ class Base:
     def mainz():
         print("Base Mainz")
 
+
 class Hero(Base):
     age = 30
+
     @classmethod
     def main(self):
         print("Hero Main")

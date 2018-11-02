@@ -1,16 +1,19 @@
+from pprint import pprint
 from SourceCodeMaker import SourceCodeMaker
 from File001 import Hero, Base
 
 
 def main():
-    source = SourceCodeMaker(Hero)
-    print(source.final_source_code)
-    
-    # source2 = SourceCodeMaker(Base)
-    # print(source2.final_source_code)
+    print()
+    source = SourceCodeMaker(Base)
+    source2 = SourceCodeMaker(Hero)
+    source3 = SourceCodeMaker(Hero)
+    source4 = SourceCodeMaker(Base)
 
-    # individual working properly
-    # both not working properly
+    print(source.final_source_code)    
+    print(source2.final_source_code)    
+    print(source3.final_source_code)    
+    print(source4.final_source_code)    
 
 
 if __name__ == "__main__":

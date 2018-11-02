@@ -30,12 +30,21 @@ class SourceCodeMaker(object):
         return attrs
     
     def _seperate_attributes_and_methods(self):
+
+        """ This should not be required ideally """
+        """ But the code does not work properly without resetting these variables """
+        """ Root cause of this is unknown so far """
+        """ Hence this quick fix. It needs to be removed in the future. """
+        self.attributes = []
+        self.methods = []
+        """ Quick Fix Ends Here """
+        
         for item in self.attributes_and_methods:
             if callable(item[1]):
                 self.methods.append(item)
             else:
                 self.attributes.append(item)
-    
+            
     def _get_final_source_code(self):
         """ Main function that creates the source code of the class """
 
@@ -53,10 +62,16 @@ class SourceCodeMaker(object):
         for attribute in self.attributes:
             attrs += "    " + str(attribute[0]) + " = "
             
+
+            """ This is dumb way of doing things """
+            """ Needs a better way to do this """
+            """ Otherwise needs to add elif causes for every new type of datatype """
             if type(attribute[1]) == type(str()):
                 attrs += '"' + str(attribute[1]) + '"'
             elif type(attribute[1]) == type(int()):
                 attrs += str(attribute[1]) 
+            """ Quick Fix Ends Here """
+
 
             attrs += "\n"
                     

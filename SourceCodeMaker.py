@@ -3,8 +3,8 @@ import inspect
 
 class SourceCodeMaker(object):
     class_name = None
-    attributes = [] 
-    methods = []
+    attributes = None 
+    methods = None
     attributes_and_methods = None
     final_source_code = None 
 
@@ -31,13 +31,8 @@ class SourceCodeMaker(object):
     
     def _seperate_attributes_and_methods(self):
 
-        """ This should not be required ideally """
-        """ But the code does not work properly without resetting these variables """
-        """ Root cause of this is unknown so far """
-        """ Hence this quick fix. It needs to be removed in the future. """
         self.attributes = []
         self.methods = []
-        """ Quick Fix Ends Here """
         
         for item in self.attributes_and_methods:
             if callable(item[1]):
@@ -52,7 +47,7 @@ class SourceCodeMaker(object):
         attributes_source = self._get_all_attributes_source()
         method_source = self._get_all_methods_source()
         final_source = "\n" + classLine + "\n\n" + attributes_source + method_source
-        
+
         return final_source
 
     def _get_class_line(self):

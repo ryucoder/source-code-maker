@@ -20,7 +20,7 @@ class Base:
 
 
 class Zero(Base):
-    # lifetime = None
+    lifetime = None
 
     def get_lifetime(self):
         return self.lifetime
@@ -28,7 +28,7 @@ class Zero(Base):
 
 class Hero(Zero):
     age = 30
-    lifetime = "100 years"
+    # lifetime = "100 years"
 
     @classmethod
     def main(self):

@@ -24,27 +24,25 @@ def list_files_and_folders(folder):
 
 def main():
     print()
-    # source = SourceCodeMaker(Hero)
-    # print(source.final_source_code)
+    source = SourceCodeMaker(Hero)
+    print(source.final_source_code)
     
-    django_path = os.path.dirname(django.__file__)
+    # django_path = os.path.dirname(django.__file__)
 
     # list_files_and_folders(django_path)
 
     # print(len(directories))
     # print(len(files))
 
-    import importlib
+    # import importlib
 
-    x = importlib.import_module("django.shortcuts")
+    # x = importlib.import_module("django.shortcuts")
 
-    for item in inspect.getmembers(x):
-        if not item[0].startswith("__"):
-            # print(item)
-            if inspect.isclass(item[1]):
-                print(item[0])
-                # print()
-                # print(inspect.getsource(item[1]))
+    # for item in inspect.getmembers(x):
+    #     if not item[0].startswith("__"):
+    #         # print(item)
+    #         if inspect.isclass(item[1]):
+    #             print(item[0])
 
 
 if __name__ == "__main__":

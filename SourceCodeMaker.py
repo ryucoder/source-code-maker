@@ -69,16 +69,21 @@ class SourceCodeMaker(object):
         parent_classes = self.class_name.mro()[0:-1]
         
         for parent in parent_classes:
+            temp = ''
             temp_attrs = self._get_attributes_of_one_class(parent)
 
             for temp_line in temp_attrs.splitlines():
-
                 if (temp_line.strip().split("=")[0] not in attrs) and (not temp_line.strip().startswith("#")):
                     """ First Condition checks if the variable name is in the attrs """
                     """ Second Condition makes sure that variable name is not commented """
-                    attrs += "\n" + temp_line
+                    temp += "\n" + temp_line
             
-            attrs += "\n"
+            # if temp is empty string i.e. class does not have any attributes defined
+            # don't add an extra empty line
+            if temp != "":
+                temp += "\n"
+
+            attrs += temp
 
         self.attributes_source_code = attrs
 

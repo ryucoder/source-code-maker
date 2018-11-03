@@ -6,15 +6,19 @@ from File001 import Hero, Base
 def main():
     print()
     source = SourceCodeMaker(Base)
-    source2 = SourceCodeMaker(Hero)
-    source3 = SourceCodeMaker(Hero)
-    source4 = SourceCodeMaker(Base)
+    # print(source.final_source_code)    
 
-    print(source.final_source_code)    
-    print(source2.final_source_code)    
-    print(source3.final_source_code)    
-    print(source4.final_source_code)    
+    import inspect
 
+    # class_lines = inspect.getsource(Base)
+    lines = inspect.getsource(Base).splitlines()
+    pprint(source.final_source_code)
+    pprint(lines)
+    # method_source = self._get_all_methods_source()
+
+    # attributes_source = self._get_all_attributes_source()
+    
+    # print(inspect.getsource(Hero).splitlines())
 
 if __name__ == "__main__":
     main()

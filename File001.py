@@ -6,6 +6,9 @@ used to show the output of the SourceCodeMaker.
 
 class Base:
     name = "Default-Name"
+    items = [1,2,'3',4,
+    5,6,7,8,9]
+    test = any([1,2,3])
 
     @classmethod
     def main():

@@ -48,12 +48,17 @@ class SourceCodeMaker(object):
     def _get_final_source_code(self):
         """ Main function that creates the source code of the class """
 
-        class_lines = inspect.getsource(self.class_name)
-        classLine = class_lines.splitlines()[0]
+        classLine = self._get_class_line()
         attributes_source = self._get_all_attributes_source()
         method_source = self._get_all_methods_source()
+        final_source = "\n" + classLine + "\n\n" + attributes_source + method_source
         
-        return "\n" + classLine + "\n\n" + attributes_source + method_source
+        return final_source
+
+    def _get_class_line(self):
+        class_lines = inspect.getsource(self.class_name)
+        classLine = class_lines.splitlines()[0]
+        return classLine
 
     def _get_all_attributes_source(self):
 

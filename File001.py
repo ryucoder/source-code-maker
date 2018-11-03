@@ -9,6 +9,7 @@ class Base:
     items = [1,2,'3',4,
     5,6,7,8,9]
     test = any([1,2,3])
+    lifetime = 5
 
     @classmethod
     def main():
@@ -18,8 +19,16 @@ class Base:
         print("Base Mainz")
 
 
-class Hero(Base):
+class Zero(Base):
+    # lifetime = None
+
+    def get_lifetime(self):
+        return self.lifetime
+        
+
+class Hero(Zero):
     age = 30
+    lifetime = "100 years"
 
     @classmethod
     def main(self):

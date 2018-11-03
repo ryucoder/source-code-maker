@@ -11,6 +11,7 @@ from File001 import Hero, Base, Zero
 files = []
 directories = []
 
+
 def list_files_and_folders(folder):
     for item in os.listdir(folder):
         if item != "__pycache__":
@@ -22,17 +23,42 @@ def list_files_and_folders(folder):
             elif os.path.isfile(temp_path):
                 files.append(temp_path)
 
+
+def extract_module_strings_from_files():
+    for one_file in files:
+        print(one_file)
+
 def main():
     print()
-    source = SourceCodeMaker(Hero)
-    print(source.final_source_code)
+    # source = SourceCodeMaker(Hero)
+    # print(source.final_source_code)
     
-    # django_path = os.path.dirname(django.__file__)
+    django_path = os.path.dirname(django.__file__)
 
-    # list_files_and_folders(django_path)
+    list_files_and_folders(django_path)
 
-    # print(len(directories))
-    # print(len(files))
+    print(len(files))
+
+    count = 0
+    extensions = []
+    for f in files: 
+        count += 1
+        parts = f.split(".")
+        # print(len(parts))
+        # print(len(extensions))
+        # print(count)
+        if count == 728:
+            continue
+        # if parts[-1].startswith("."):
+        if parts[-1] == "py":
+            extensions.append(parts)
+    print(len(extensions))
+    
+    # pprint(set(extensions))
+    # pprint(extensions)
+    # print(set(extensions))
+        # if count == 10:
+        #     break
 
     # import importlib
 

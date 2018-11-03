@@ -102,9 +102,9 @@ class SourceCodeMaker(object):
 
         for line in class_lines:
             
-            # remove empty lines
-            # if line is None:
-            #     continue
+            # Don't process empty lines
+            if line == "":
+                continue
 
             stripped_line = line.strip()
             

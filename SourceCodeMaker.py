@@ -123,6 +123,7 @@ class SourceCodeMaker(object):
             if line == "":
                 continue
 
+            # Remove single line comments here
 
             # dont process multiline comments
             if is_multi and (not stripped_line[-3:] in comments):

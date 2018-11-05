@@ -147,8 +147,6 @@ class SourceCodeMaker(object):
 
         return attrs
 
-    slot_wrapper = []
-
     def _get_all_methods_source(self):
         
         source = ""

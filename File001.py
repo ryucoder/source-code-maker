@@ -31,11 +31,21 @@ class Hero(Zero):
     """
     akjhdskjaahkjda
     """
+    '''
+    amshdkjahsd
+    '''
+
     """ haskjahhkjhakjs  """
     ''' klajshalkhsajlkad '''
+    
     ''''''
     """"""
     
+    """  ajhksdkljhasd
+    askjhdkjahsdkjhaskjd """
+    ''' ahgjsdjhgasd
+    askjhdlkajsd '''
+
     age = 30
     # lifetime = "100 years"
 

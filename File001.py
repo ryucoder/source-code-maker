@@ -28,6 +28,16 @@ class Zero(Base):
         
 
 class Hero(Zero):
+    
+    age = 30
+    # lifetime = "100 years"
+
+    @classmethod
+    def main(self):
+        print("Hero Main")
+
+
+class Comments(object):
     """
     akjhdskjaahkjda
     """
@@ -46,9 +56,4 @@ class Hero(Zero):
     ''' ahgjsdjhgasd
     askjhdlkajsd '''
 
-    age = 30
-    # lifetime = "100 years"
-
-    @classmethod
-    def main(self):
-        print("Hero Main")
+    comments = "Comments of above formats will not be shown in the source code."

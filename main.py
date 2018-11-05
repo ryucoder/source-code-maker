@@ -1,6 +1,6 @@
 
 from SourceCodeMaker import SourceCodeMaker
-from File001 import Hero, Base, Zero
+from File001 import Hero, Base, Zero, Comments
 
 
 def main():

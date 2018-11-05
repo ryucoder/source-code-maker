@@ -106,7 +106,7 @@ class SourceCodeMaker(object):
 
         attrs = ''
         class_lines = inspect.getsource(class_name).splitlines()[1:]
-        is_multi = False
+        is_multiline_comment_active = False
         comments = ['"""', "'''"]
 
         for line in class_lines:
@@ -126,15 +126,15 @@ class SourceCodeMaker(object):
             # Remove single line comments here
 
             # dont process multiline comments
-            if is_multi and (not stripped_line[-3:] in comments):
+            if is_multiline_comment_active and (not stripped_line[-3:] in comments):
                 continue
 
-            if stripped_line[0:3] in comments and not is_multi:
-                is_multi = True
+            if stripped_line[0:3] in comments and not is_multiline_comment_active:
+                is_multiline_comment_active = True
                 continue
 
             if stripped_line[-3:] in comments:
-                is_multi = False
+                is_multiline_comment_active = False
                 continue
 
 

@@ -29,7 +29,9 @@ class SourceCodeMaker(object):
         members = inspect.getmembers(self.class_name)
 
         for member in members:
-            if member[0].startswith("__") != True:
+            if (member[0].startswith("__") != True) or (member[0] == "__init__"):
+                # First condition adds all the non __name__ type variables
+                # Second conditions allows the __init__ method to be added
                 attrs.append(member)
 
         return attrs
@@ -65,9 +67,14 @@ class SourceCodeMaker(object):
 
         attrs = ""
 
-        # As last item in MRO is class object,it needs to be ommitted.
-        parent_classes = self.class_name.mro()[0:-1]
+        mro = self.class_name.mro()
+
         
+        # if issubclass(self.class_name, Exception):
+        #     parent_classes = mro[0:-3]
+        # else:
+        parent_classes = mro[0:-1]
+
         for parent in parent_classes:
             temp = ''
             temp_attrs = self._get_attributes_of_one_class(parent)
@@ -123,12 +130,10 @@ class SourceCodeMaker(object):
 
             if stripped_line[0:3] in comments and not is_multi:
                 is_multi = True
-                # print("cCCONTIINUE sttart")
                 continue
 
             if stripped_line[-3:] in comments:
                 is_multi = False
-                # print("cCCONTIINUE eends")
                 continue
 
 
@@ -141,12 +146,15 @@ class SourceCodeMaker(object):
 
         return attrs
 
+    slot_wrapper = []
+
     def _get_all_methods_source(self):
         
         source = ""
-
+    
         for method in self.methods:
-            source += "\n" + inspect.getsource(method[1]) 
+            if method[1] != object.__init__:
+                source += "\n" + inspect.getsource(method[1]) 
         
         source += "\n"
 

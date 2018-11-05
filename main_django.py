@@ -68,7 +68,7 @@ def extract_classes_from_modules():
         for item in inspect.getmembers(filename):
             if not item[0].startswith("__"):
                 # print(item)
-                if inspect.isclass(item[1]):
+                if inspect.isclass(item[1]) and not issubclass(item[1], Exception) and not issubclass( item[1], classmethod):
                     # print(item[0])
                     classes.append(item[1])
                     # print(inspect.getsource(item[1]))
@@ -80,22 +80,34 @@ def main():
 
     # list_files_and_folders(django_path)
 
-    # print(len(files))
-
-
     extract_module_strings_from_files()
     extract_classes_from_modules()
 
+    print(len(files))
     print(len(classes))
-    print(classes[0])
-    
-    fi = open('code.txt', 'w')
-    fi.write(inspect.getsource(classes[0]))
-    fi.write(SourceCodeMaker(classes[0]).final_source_code)
-    fi.close()
+
+    os.remove('code_inspect.txt')
+    os.remove('code_sourcecodemaker.txt')
+
+    for klass in classes:    
+        fi = open('code_inspect.txt', 'a')
+        scm = open('code_sourcecodemaker.txt', 'a')
+
+        fi.write("****************************************\n")
+        fi.write(inspect.getsource(klass))
+        fi.write("****************************************\n\n")
+
+        scm.write("****************************************\n")
+        scm.write(SourceCodeMaker(klass).final_source_code)
+        scm.write("****************************************\n\n")
+        
+        fi.close()
+        scm.close()
 
 
 if __name__ == "__main__":
     main()
 
     # get source of super methods from mro if super is called in any methods
+# https://opensource.com/article/18/5/how-retrieve-source-code-python-functions
+# https: // ivxenog.in/2018/02/10/dynamically-import-module-from-string-in-python/

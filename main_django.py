@@ -14,6 +14,10 @@ files = []
 directories = []
 modules = []
 classes = []
+mixins = []
+views = []
+others = []
+
 
 # def extract_list_of_python_files_from_files():
     # count = 0
@@ -45,13 +49,13 @@ def list_files_and_folders(folder):
 
 
 def extract_module_strings_from_files():
-    path = 'C:\\Program Files\\Python36\\lib\\site-packages\\django\\views\\generic'
-    remove = 'C:\Program Files\Python36\lib\site-packages\\'
-
-    list_files_and_folders(path)
+    django_path = os.path.dirname(django.__file__)
+    remove = os.path.dirname(django_path)
 
     for name in files:
-        module_name = name.replace(remove, '').replace(".py", "")
+        # list slicing is required as the resulting module_name starts with a \
+        module_name = name.replace(remove, '').replace(".py", "")[1:]
+
         if not module_name.endswith("__init__"):
             modules.append(module_name.replace("\\", "."))
 
@@ -74,39 +78,33 @@ def extract_classes_from_modules():
                     # print(inspect.getsource(item[1]))
 
 
-def main():
-    print()
-    # django_path = os.path.dirname(django.__file__)
-
-    # list_files_and_folders(django_path)
-
-    extract_module_strings_from_files()
-    extract_classes_from_modules()
-
-    print()
-    print(len(files))
-    print(len(classes))
-    print()
-
-    mixins = []
-    views = []
-    others = []
-
+def extract_mixins_views_others_from_classes():
     for klass in classes:
         if klass.__name__.endswith("Mixin"):
             mixins.append(klass)
         elif klass.__name__.endswith("View"):
             views.append(klass)
-        else: 
+        else:
             others.append(klass)
 
+def main():
+    print()
+    django_path = os.path.dirname(django.__file__)
+    views_path = os.path.join(django_path, "views", "generic")
+   
+    list_files_and_folders(views_path)
+    extract_module_strings_from_files()
+    extract_classes_from_modules()
+    extract_mixins_views_others_from_classes()
+
+    print()
+    print(len(files))
+    print(len(classes))
     print()
     print(len(mixins))
-    pprint(mixins)
     print(len(views))
-    pprint(views)
     print(len(others))
-    pprint(others)
+    print()
 
     # for mixin in mixins:
     #     print(mixin.__name__, len(mixin.mro()))

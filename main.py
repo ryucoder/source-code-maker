@@ -42,19 +42,19 @@ def extract_module_strings_from_files():
 
 def extract_classes_from_modules():
     
+    # Required to import dates.py
+    django.conf.settings.configure()
+
     for item in modules:
-        # for some reasons dates file is not being imported
-        if item != "django.views.generic.dates":
+        filename = importlib.import_module(item)
 
-            filename = importlib.import_module(item)
-
-            for item in inspect.getmembers(filename):
-                if not item[0].startswith("__"):
-                    # print(item)
-                    if inspect.isclass(item[1]):
-                        # print(item[0])
-                        classes.append(item[1])
-                        # print(inspect.getsource(item[1]))
+        for item in inspect.getmembers(filename):
+            if not item[0].startswith("__"):
+                # print(item)
+                if inspect.isclass(item[1]):
+                    # print(item[0])
+                    classes.append(item[1])
+                    # print(inspect.getsource(item[1]))
 
 def main():
     print()
@@ -83,10 +83,7 @@ def main():
 
     extract_module_strings_from_files()
     extract_classes_from_modules()
-    
-    pprint(classes)
-    pprint(len(classes))
-
+    print(len(classes))
 if __name__ == "__main__":
     main()
 

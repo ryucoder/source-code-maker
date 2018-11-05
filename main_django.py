@@ -83,31 +83,76 @@ def main():
     extract_module_strings_from_files()
     extract_classes_from_modules()
 
+    print()
     print(len(files))
     print(len(classes))
+    print()
 
-    os.remove('code_inspect.txt')
-    os.remove('code_sourcecodemaker.txt')
+    mixins = []
+    views = []
+    others = []
 
-    for klass in classes:    
-        fi = open('code_inspect.txt', 'a')
-        scm = open('code_sourcecodemaker.txt', 'a')
+    for klass in classes:
+        if klass.__name__.endswith("Mixin"):
+            mixins.append(klass)
+        elif klass.__name__.endswith("View"):
+            views.append(klass)
+        else: 
+            others.append(klass)
 
-        fi.write("****************************************\n")
-        fi.write(inspect.getsource(klass))
-        fi.write("****************************************\n\n")
+    print()
+    print(len(mixins))
+    pprint(mixins)
+    print(len(views))
+    pprint(views)
+    print(len(others))
+    pprint(others)
 
-        scm.write("****************************************\n")
-        scm.write(SourceCodeMaker(klass).final_source_code)
-        scm.write("****************************************\n\n")
+    # for mixin in mixins:
+    #     print(mixin.__name__, len(mixin.mro()))
+
+    # sort the mixins in ascending order or length of mro
+    # sort the views in ascending order or length of mro
+    # sort the others in ascending order or length of mro
+
+    # os.remove('code_inspect.txt')
+    # os.remove('code_sourcecodemaker.txt')
+
+    # for klass in classes:    
+    #     fi = open('code_inspect.txt', 'a')
+    #     scm = open('code_sourcecodemaker.txt', 'a')
+
+    #     fi.write("****************************************\n")
+    #     fi.write(inspect.getsource(klass))
+    #     fi.write("****************************************\n\n")
+
+    #     scm.write("****************************************\n")
+    #     scm.write(SourceCodeMaker(klass).final_source_code)
+    #     scm.write("****************************************\n\n")
         
-        fi.close()
-        scm.close()
+    #     fi.close()
+    #     scm.close()
 
 
 if __name__ == "__main__":
     main()
 
-    # get source of super methods from mro if super is called in any methods
+
+# Thank and share
 # https://opensource.com/article/18/5/how-retrieve-source-code-python-functions
 # https: // ivxenog.in/2018/02/10/dynamically-import-module-from-string-in-python/
+
+
+# Needs to fix source codes of below classes in SourceCodeMaker
+# TemplateResponseMixin 
+
+
+# Features to add
+# 1. Get source of super methods from mro if super is called in any methods
+# 2. Enable metadata info i.e. if the metadata=True then show
+# which functions and attributes were brought from which class
+
+
+# Main Goals to achieve in Django 
+# 1. Get correct source code of all the Mixins in Django
+# 2. Get correct source code of all the Class Based Views in Django

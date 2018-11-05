@@ -2,13 +2,13 @@ import os
 import sys 
 import django 
 import inspect
-import  importlib   
+import importlib   
 
-from django.views import generic
 from pprint import pprint
 
 from SourceCodeMaker import SourceCodeMaker
 from File001 import Hero, Base, Zero
+
 
 files = []
 directories = []
@@ -43,7 +43,8 @@ def extract_module_strings_from_files():
 def extract_classes_from_modules():
     
     # Required to import dates.py
-    django.conf.settings.configure()
+    from django.conf import settings
+    settings.configure()
 
     for item in modules:
         filename = importlib.import_module(item)
@@ -56,10 +57,11 @@ def extract_classes_from_modules():
                     classes.append(item[1])
                     # print(inspect.getsource(item[1]))
 
+
 def main():
     print()
-    # source = SourceCodeMaker(Hero)
-    # print(source.final_source_code)
+    source = SourceCodeMaker(Hero)
+    print(source.final_source_code)
     # django_path = os.path.dirname(django.__file__)
 
     # list_files_and_folders(django_path)
@@ -81,9 +83,16 @@ def main():
     #         extensions.append(parts)
     # print(len(extensions))
 
-    extract_module_strings_from_files()
-    extract_classes_from_modules()
-    print(len(classes))
+    # extract_module_strings_from_files()
+    # extract_classes_from_modules()
+    # print(len(classes))
+    # print(classes[0])
+    # fi = open('code.txt', 'w')
+    # fi.write(inspect.getsource(classes[0]))
+    # fi.write(SourceCodeMaker(classes[0]).final_source_code)
+    # fi.close()
+
+
 if __name__ == "__main__":
     main()
 

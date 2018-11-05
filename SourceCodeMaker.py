@@ -99,18 +99,42 @@ class SourceCodeMaker(object):
 
         attrs = ''
         class_lines = inspect.getsource(class_name).splitlines()[1:]
+        is_multi = False
+        comments = ['"""', "'''"]
 
         for line in class_lines:
-            
+
+            # print(repr(line))
+
+            stripped_line = line.strip()
+
+            # remove multiline comments written on a single line
+            if stripped_line[0:3] in comments and stripped_line[-3:] in comments and  len(stripped_line) > 5:
+                continue    
+
             # Don't process empty lines
             if line == "":
                 continue
 
-            stripped_line = line.strip()
-            
+
+            # dont process multiline comments
+            if is_multi and (not stripped_line[-3:] in comments):
+                continue
+
+            if stripped_line[0:3] in comments and not is_multi:
+                is_multi = True
+                # print("cCCONTIINUE sttart")
+                continue
+
+            if stripped_line[-3:] in comments:
+                is_multi = False
+                # print("cCCONTIINUE eends")
+                continue
+
+
             if stripped_line.startswith("@") or stripped_line.startswith("def "):
                 """ First condition checks if the method was decorated """
-                """ Second condition checks if the method was not decorated """
+                """ Second condition checks if the declaration of first method was found """
                 break
 
             attrs += "\n" + line

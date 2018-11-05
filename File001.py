@@ -23,10 +23,19 @@ class Zero(Base):
     lifetime = None
 
     def get_lifetime(self):
+        print('from zero')
         return self.lifetime
         
 
 class Hero(Zero):
+    """
+    akjhdskjaahkjda
+    """
+    """ haskjahhkjhakjs  """
+    ''' klajshalkhsajlkad '''
+    ''''''
+    """"""
+    
     age = 30
     # lifetime = "100 years"
 

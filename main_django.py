@@ -87,7 +87,30 @@ def extract_mixins_views_others_from_classes():
         else:
             others.append(klass)
 
+
+def sort_based_on_mro_count(classes):
+    klass_mro_count = []
+    unique_mro = []
+    sorted_klasses = []
+
+    for klass in classes:
+        length = len(klass.mro())
+        klass_mro_count.append((klass, length))
+        if length not in unique_mro:
+            unique_mro.append(length)
+
+    for mro in sorted(unique_mro):
+        for klass in klass_mro_count:
+            if klass[1] == mro:
+                sorted_klasses.append(klass)
+
+    return sorted_klasses
+
+
 def main():
+    global mixins   
+    global views
+    global others   
     print()
     django_path = os.path.dirname(django.__file__)
     views_path = os.path.join(django_path, "views", "generic")
@@ -97,21 +120,12 @@ def main():
     extract_classes_from_modules()
     extract_mixins_views_others_from_classes()
 
-    print()
-    print(len(files))
-    print(len(classes))
-    print()
-    print(len(mixins))
-    print(len(views))
-    print(len(others))
-    print()
-
     # for mixin in mixins:
     #     print(mixin.__name__, len(mixin.mro()))
 
-    # sort the mixins in ascending order or length of mro
-    # sort the views in ascending order or length of mro
-    # sort the others in ascending order or length of mro
+    mixins = sort_based_on_mro_count(mixins)
+    views = sort_based_on_mro_count(views)
+    others = sort_based_on_mro_count(others)
 
     # os.remove('code_inspect.txt')
     # os.remove('code_sourcecodemaker.txt')

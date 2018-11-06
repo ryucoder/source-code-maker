@@ -111,7 +111,9 @@ def main():
     global mixins   
     global views
     global others   
+
     print()
+
     django_path = os.path.dirname(django.__file__)
     views_path = os.path.join(django_path, "views", "generic")
    
@@ -120,30 +122,41 @@ def main():
     extract_classes_from_modules()
     extract_mixins_views_others_from_classes()
 
-    # for mixin in mixins:
-    #     print(mixin.__name__, len(mixin.mro()))
+    mixins = sort_based_on_mro_count(set(mixins))
+    views = sort_based_on_mro_count(set(views))
+    others = sort_based_on_mro_count(set(others))
 
-    mixins = sort_based_on_mro_count(mixins)
-    views = sort_based_on_mro_count(views)
-    others = sort_based_on_mro_count(others)
+    mixins_length = len(mixins)
+    views_length = len(views)
+    others_length = len(others)
+    total_length = mixins_length + views_length + others_length
+    print("Mixin Classes: ", mixins_length)
+    print("View Classes: ", views_length)
+    print("Other Classes: ", others_length)
+    print("Total Classes: ", total_length)
+    
 
-    # os.remove('code_inspect.txt')
-    # os.remove('code_sourcecodemaker.txt')
+    # Total 50 classes
 
-    # for klass in classes:    
-    #     fi = open('code_inspect.txt', 'a')
-    #     scm = open('code_sourcecodemaker.txt', 'a')
 
-    #     fi.write("****************************************\n")
-    #     fi.write(inspect.getsource(klass))
-    #     fi.write("****************************************\n\n")
+    os.remove('code_inspect.txt')
+    os.remove('code_sourcecodemaker.txt')
 
-    #     scm.write("****************************************\n")
-    #     scm.write(SourceCodeMaker(klass).final_source_code)
-    #     scm.write("****************************************\n\n")
-        
-    #     fi.close()
-    #     scm.close()
+    for klass in mixins:
+        if klass[1] == 3:
+            fi = open('code_inspect.txt', 'a')
+            scm = open('code_sourcecodemaker.txt', 'a')
+
+            fi.write("****************************************\n")
+            fi.write(inspect.getsource(klass[0]))
+            fi.write("****************************************\n\n")
+
+            scm.write("****************************************\n")
+            scm.write(SourceCodeMaker(klass[0]).final_source_code)
+            scm.write("****************************************\n\n")
+            
+            fi.close()
+            scm.close()
 
 
 if __name__ == "__main__":
@@ -156,14 +169,19 @@ if __name__ == "__main__":
 
 
 # Needs to fix source codes of below classes in SourceCodeMaker
-# TemplateResponseMixin 
+# 1. TemplateResponseMixin 
+# 2. class DateMixin(object):
+    # @cached_property
+    # def uses_datetime_field(self):
 
 
 # Features to add
 # 1. Get source of super methods from mro if super is called in any methods
 # 2. Enable metadata info i.e. if the metadata=True then show
 # which functions and attributes were brought from which class
-
+# print(Main.get.__qualname__)
+# print(Main.turbo.__qualname__)
+# 3. Method name order _name() first, name() last, sort names
 
 # Main Goals to achieve in Django 
 # 1. Get correct source code of all the Mixins in Django

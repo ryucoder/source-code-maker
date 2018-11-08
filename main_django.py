@@ -130,14 +130,11 @@ def main():
     views_length = len(views)
     others_length = len(others)
     total_length = mixins_length + views_length + others_length
+
     print("Mixin Classes: ", mixins_length)
     print("View Classes: ", views_length)
     print("Other Classes: ", others_length)
     print("Total Classes: ", total_length)
-    
-
-    # Total 50 classes
-
 
     os.remove('code_inspect.txt')
     os.remove('code_sourcecodemaker.txt')
@@ -165,7 +162,7 @@ if __name__ == "__main__":
 
 # Thank and share
 # https://opensource.com/article/18/5/how-retrieve-source-code-python-functions
-# https: // ivxenog.in/2018/02/10/dynamically-import-module-from-string-in-python/
+# https://ivxenog.in/2018/02/10/dynamically-import-module-from-string-in-python/
 
 
 # Needs to fix source codes of below classes in SourceCodeMaker
@@ -182,6 +179,7 @@ if __name__ == "__main__":
 # print(Main.get.__qualname__)
 # print(Main.turbo.__qualname__)
 # 3. Method name order _name() first, name() last, sort names
+
 
 # Main Goals to achieve in Django 
 # 1. Get correct source code of all the Mixins in Django

@@ -1,5 +1,5 @@
 # SourceCodeMaker
-SourceCodeMaker solves a real life problem of every python developer on the planet 
+SourceCodeMaker solves a real life problem of every python developer on the planet \s\s
 i.e. getting the Final Source Code of a Python Class that was extended from multiple classes. 
 
 Class Based Views in Django are very hard to understand, as the class is being extended from many different classes and mixins. 

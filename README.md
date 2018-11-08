@@ -1,4 +1,4 @@
-# source-code-maker
+# SourceCodeMaker
 SourceCodeMaker solves a real life problem of every python developer on the planet 
 i.e. getting the Final Source Code of a Python Class that was extended from multiple classes. 
 

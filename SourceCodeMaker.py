@@ -5,6 +5,7 @@ from File001 import Hero, Base
 
 class SourceCodeMaker(object):
     class_name = None
+    metadata = None
     attributes = None 
     methods = None
     attributes_and_methods = None
@@ -13,11 +14,12 @@ class SourceCodeMaker(object):
     methods_source_code = None 
     final_source_code = None 
 
-    def __init__(self, className):
+    def __init__(self, className, metadata=False):
 
         # check if className is class or not. if not raise an error
 
         self.class_name = className
+        self.metadata = metadata
         self.attributes_and_methods = self._get_all_attrs_and_methods()
         self._seperate_attributes_and_methods()
         self.final_source_code = self._get_final_source_code()
@@ -60,7 +62,17 @@ class SourceCodeMaker(object):
     def _get_class_line(self):
         # class_lines = inspect.getsource(self.class_name)
         classLine = inspect.getsource(self.class_name).splitlines()[0]
+        
+        if self.metadata:
+            classLine += "\n"
+            classLine += "\n# ************************************************************"
+            classLine += "\n# Method Resolution Order of Class " + self.class_name.__name__
+            for klass in reversed(self.class_name.mro()):
+                classLine += "\n# " + "Class " +  klass.__qualname__
+            classLine += "\n# ************************************************************"
+        
         self.class_line_source_code = classLine
+
         return classLine
 
     def _get_all_attributes_source(self):

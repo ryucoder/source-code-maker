@@ -5,7 +5,7 @@ from File001 import Hero, Base, Zero, Comments
 
 def main():
     print()
-    source = SourceCodeMaker(Hero)
+    source = SourceCodeMaker(Hero, metadata=True)
     print(source.final_source_code)
     
 

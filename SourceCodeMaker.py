@@ -60,14 +60,13 @@ class SourceCodeMaker(object):
         return final_source
 
     def _get_class_line(self):
-        # class_lines = inspect.getsource(self.class_name)
         classLine = inspect.getsource(self.class_name).splitlines()[0]
         
         if self.metadata:
             classLine += "\n"
             classLine += "\n# ************************************************************"
             classLine += "\n# Method Resolution Order of Class " + self.class_name.__name__
-            for klass in reversed(self.class_name.mro()):
+            for klass in self.class_name.mro():
                 classLine += "\n# " + "Class " +  klass.__qualname__
             classLine += "\n# ************************************************************"
         
@@ -80,15 +79,14 @@ class SourceCodeMaker(object):
         attrs = ""
 
         mro = self.class_name.mro()
-
-        
-        # if issubclass(self.class_name, Exception):
-        #     parent_classes = mro[0:-3]
-        # else:
         parent_classes = mro[0:-1]
 
         for parent in parent_classes:
             temp = ''
+    
+            if self.metadata:
+                temp += '\n    # Attributes of Class ' + parent.__name__
+    
             temp_attrs = self._get_attributes_of_one_class(parent)
 
             for temp_line in temp_attrs.splitlines():
@@ -96,12 +94,21 @@ class SourceCodeMaker(object):
                     """ First Condition checks if the variable name is in the attrs """
                     """ Second Condition makes sure that variable name is not commented """
                     temp += "\n" + temp_line
-            
-            # if temp is empty string i.e. class does not have any attributes defined
+
+           # if temp is empty string i.e. class does not have any attributes defined
             # don't add an extra empty line
             if temp != "":
                 temp += "\n"
 
+            if self.metadata:
+                if temp_attrs == "":
+                    temp += "\n    # No attributes are defined inside this class"
+                elif temp_attrs != "" and temp.strip() == "# Attributes of Class " + parent.__name__:
+                    # this is not enough. User needs to know which attributes were overwritten
+                    # Still needs a better way to process attibutes
+                    temp += "    # Attributes were overwritten in above class"
+                    temp += "\n"
+            
             attrs += temp
 
         self.attributes_source_code = attrs

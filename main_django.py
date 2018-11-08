@@ -170,6 +170,10 @@ if __name__ == "__main__":
 # 2. class DateMixin(object):
     # @cached_property
     # def uses_datetime_field(self):
+# 3. if attributes are overwritten then below message is not shown in the metadata
+# # No attributes are defined inside this class"
+# instead shown below message 
+# attribute name = value # this was overwritten in above class
 
 
 # Features to add

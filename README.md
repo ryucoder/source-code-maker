@@ -11,4 +11,4 @@ My code makes it super duper easy to get the final source code of a python class
 Just give a call the constructor of a SourceCodeMaker and the source code is available as an attribute. 
 All of above problems are solved with just one line of code 😎.
 
-That's not it, it takes it even further. Send kwarg metadata=True to SourceCodeMaker class and added information like MRO, which attributes and methods belongs to which class are also shown :metal: :clap: :+1:.
+That's not it, it takes it even further. Send kwarg metadata=True to SourceCodeMaker constructor and added information like MRO, which attributes and methods belongs to which class are also shown :metal: :clap: :+1:.

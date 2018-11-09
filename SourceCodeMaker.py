@@ -178,8 +178,12 @@ class SourceCodeMaker(object):
             if self.metadata:
                 source += "\n    # Methods defined in Class " + klass.__name__
 
-            for method in self.methods[klass.__name__]:
-                source += "\n" + inspect.getsource(method)
+            if len(self.methods.get(klass.__name__, "")) > 0:
+                for method in self.methods[klass.__name__]:
+                    source += "\n" + inspect.getsource(method)
+            else:
+                if self.metadata:
+                    source += "\n    # No methods are defined in Class " + klass.__name__ + "\n"
 
         source += "\n"
 

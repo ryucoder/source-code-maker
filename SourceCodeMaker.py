@@ -174,13 +174,12 @@ class SourceCodeMaker(object):
 
         self._sort_methods_based_on_classname()
 
-        for klassname in self.mro:
-            if klassname != object:
-                if self.metadata:
-                    source += "\n    # Methods defined in Class " + klassname.__name__
+        for klass in self.mro[0:-1]:
+            if self.metadata:
+                source += "\n    # Methods defined in Class " + klass.__name__
 
-                for method in self.methods[klassname.__name__]:
-                    source += "\n" + inspect.getsource(method)
+            for method in self.methods[klass.__name__]:
+                source += "\n" + inspect.getsource(method)
 
         source += "\n"
 

@@ -175,12 +175,24 @@ class SourceCodeMaker(object):
         self._sort_methods_based_on_classname()
 
         for klass in self.mro[0:-1]:
+
             if self.metadata:
                 source += "\n    # Methods defined in Class " + klass.__name__
 
             if len(self.methods.get(klass.__name__, "")) > 0:
                 for method in self.methods[klass.__name__]:
-                    source += "\n" + inspect.getsource(method)
+
+                    temp = "\n" + inspect.getsource(method)
+                    instance = klass()
+
+                    # Check for super( should be done recursively. 
+                    if "super(" in temp:
+                        super_method = getattr(super(klass, instance), method.__name__)
+                        super_source = "\n" + inspect.getsource(super_method)
+                        source += super_source
+
+                    source += temp
+
             else:
                 if self.metadata:
                     source += "\n    # No methods are defined in Class " + klass.__name__ + "\n"

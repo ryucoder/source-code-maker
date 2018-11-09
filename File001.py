@@ -41,6 +41,7 @@ class Hero(Zero):
     @classmethod
     def main(self):
         print("Hero Main")
+        super(Hero, self).main()
 
     def hero(self):
         print("Hero hero")

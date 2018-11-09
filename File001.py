@@ -24,7 +24,11 @@ class Base:
 
 class Zero(Base):
     lifetime = None
-    
+
+    def main(klass):
+        print("Zero Main")
+        super(Zero, self).main()
+
     def get_lifetime(self):
         print('from zero')
         return self.lifetime

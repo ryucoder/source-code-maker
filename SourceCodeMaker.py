@@ -5,6 +5,7 @@ from File001 import Hero, Base
 
 class SourceCodeMaker(object):
     class_name = None
+    mro = None
     metadata = None
     attributes = None 
     methods = None
@@ -19,6 +20,7 @@ class SourceCodeMaker(object):
         # check if className is class or not. if not raise an error
 
         self.class_name = className
+        self.mro = self.class_name.mro()
         self.metadata = metadata
         self.attributes_and_methods = self._get_all_attrs_and_methods()
         self._seperate_attributes_and_methods()
@@ -64,11 +66,11 @@ class SourceCodeMaker(object):
         
         if self.metadata:
             classLine += "\n"
-            classLine += "\n# ************************************************************"
-            classLine += "\n# Method Resolution Order of Class " + self.class_name.__name__
+            classLine += "\n    # ************************************************************"
+            classLine += "\n    # Method Resolution Order of Class " + self.class_name.__name__
             for klass in self.class_name.mro():
-                classLine += "\n# " + "Class " +  klass.__qualname__
-            classLine += "\n# ************************************************************"
+                classLine += "\n    # " + "Class " +  klass.__qualname__
+            classLine += "\n    # ************************************************************"
         
         self.class_line_source_code = classLine
 
@@ -167,19 +169,38 @@ class SourceCodeMaker(object):
         return attrs
 
     def _get_all_methods_source(self):
-        
+
         source = ""
-    
-        for method in self.methods:
-            if method[1] != object.__init__:
-                source += "\n" + inspect.getsource(method[1]) 
-        
+
+        self._sort_methods_based_on_classname()
+
+        for klassname in self.mro:
+            if klassname != object:
+                if self.metadata:
+                    source += "\n    # Methods defined in Class " + klassname.__name__
+
+                for method in self.methods[klassname.__name__]:
+                    source += "\n" + inspect.getsource(method)
+
         source += "\n"
 
         self.methods_source_code = source
 
         return source
 
+    def _sort_methods_based_on_classname(self):
+        methods = {}
+
+        for method in self.methods:
+            klassname = method[1].__qualname__.split(".")[0]
+
+            if klassname not in methods.keys():
+                methods[klassname] = []
+
+            methods[klassname].append(method[1])
+
+        self.methods = methods
+    
     def get_raw_string(self):
         return repr(self.final_source_code)
 

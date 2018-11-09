@@ -12,20 +12,26 @@ class Base:
     lifetime = 5
 
     @classmethod
-    def main():
+    def main(klass):
         print("Base Main")
 
-    def mainz():
+    def mainz(self):
         print("Base Mainz")
+
+    def base(self):
+        print("Base base")
 
 
 class Zero(Base):
     lifetime = None
-
+    
     def get_lifetime(self):
         print('from zero')
         return self.lifetime
         
+    def zero(self):
+        print("Zero zero")
+
 
 class Hero(Zero):
     
@@ -35,6 +41,9 @@ class Hero(Zero):
     @classmethod
     def main(self):
         print("Hero Main")
+
+    def hero(self):
+        print("Hero hero")
 
 
 class Comments(object):

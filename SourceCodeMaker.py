@@ -232,34 +232,16 @@ class SourceCodeMaker(object):
             temp_source = inspect.getsource(method)
             super_source = "\n" + temp_source + super_source
 
-
-
-            # if self.metadata:         
-            #     temp_source = "\n    # Method of Class " + method.__qualname__.split(".")[0] 
-            #     super_source = temp_source + super_source
-
-            # if "super(" not in temp_source:
-            #     break
-
-            # elif "super(" in temp_source:
-            #     if index == (length - 1):
-            #         temp_source = "\n    # There is no method '" + method.__name__ + "' available in the Super Class of " + method.__qualname__.split(".")[0] + "\n" + temp_source
-            #         super_source = temp_source + super_source
-                    
+            if self.metadata:         
+                temp = "\n    # Method of Class " + method.__qualname__.split(".")[0] 
+                super_source = temp + super_source
 
             if "super(" not in temp_source:
-                if self.metadata:         
-                    temp_source = "\n    # Method of Class " + method.__qualname__.split(".")[0] 
-                    super_source = temp_source + super_source
                 break
 
             elif "super(" in temp_source:
-                if self.metadata:         
-                    temp_source = "\n    # Method of Class " + method.__qualname__.split(".")[0] 
-                    
-                    if index == (length - 1):
-                        temp_source = "\n    # There is no method '" + method.__name__ + "' available in the Super Class of " + method.__qualname__.split(".")[0] + "\n" + temp_source
-                    
+                if self.metadata and (index == (length - 1)):
+                    temp_source = "\n    # There is no method '" + method.__name__ + "' available in the Super Class of " + method.__qualname__.split(".")[0] + "\n" 
                     super_source = temp_source + super_source
 
         return super_source

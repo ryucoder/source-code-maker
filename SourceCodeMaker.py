@@ -186,17 +186,6 @@ class SourceCodeMaker(object):
                     super_source = self._check_super_and_get_combined_source(klass, method)
                     source += super_source
 
-                # for method in self.methods[klass.__name__]:
-
-                #     temp = "\n" + inspect.getsource(method)
-                #     instance = klass()
-
-                #     if "super(" in temp:
-                #         super_source = self._check_super_and_get_combined_source(klass, method)
-                #         source += super_source
-
-                #     source += temp
-
             else:
                 if self.metadata:
                     source += "\n    # No methods are defined in Class " + klass.__name__ + "\n"

@@ -14,6 +14,7 @@ class Base:
     @classmethod
     def main(klass):
         print("Base Main")
+        super(Main, self).main()
 
     def mainz(self):
         print("Base Mainz")
@@ -21,6 +22,9 @@ class Base:
     def base(self):
         print("Base base")
 
+    def hero(self):
+        print("Base hero")
+        # super(Hero, self).hero()
 
 class Zero(Base):
     lifetime = None
@@ -49,6 +53,7 @@ class Hero(Zero):
 
     def hero(self):
         print("Hero hero")
+        super(Hero, self).hero()
 
 
 class Comments(object):

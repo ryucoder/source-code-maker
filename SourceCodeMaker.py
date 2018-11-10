@@ -181,17 +181,19 @@ class SourceCodeMaker(object):
 
             if len(self.methods.get(klass.__name__, "")) > 0:
                 for method in self.methods[klass.__name__]:
+                    super_source = self._check_super_and_get_combined_source(klass, method)
+                    source += super_source
 
-                    temp = "\n" + inspect.getsource(method)
-                    instance = klass()
+                # for method in self.methods[klass.__name__]:
 
-                    # Check for super( should be done recursively. 
-                    if "super(" in temp:
-                        super_method = getattr(super(klass, instance), method.__name__)
-                        super_source = "\n" + inspect.getsource(super_method)
-                        source += super_source
+                #     temp = "\n" + inspect.getsource(method)
+                #     instance = klass()
 
-                    source += temp
+                #     if "super(" in temp:
+                #         super_source = self._check_super_and_get_combined_source(klass, method)
+                #         source += super_source
+
+                #     source += temp
 
             else:
                 if self.metadata:
@@ -216,6 +218,61 @@ class SourceCodeMaker(object):
 
         self.methods = methods
     
+    def _check_super_and_get_combined_source(self, klass, method):
+
+        temp_source = ""
+        super_source = ""
+        super_methods = []
+
+        for cls in klass.mro()[0:-1]:
+            try:
+                met = getattr(cls, method.__name__)
+            except AttributeError:
+                met = ""
+
+            if (met != "") and (met not in super_methods):
+                super_methods.append(met)
+
+        length = len(super_methods)
+
+        for index, method in enumerate(super_methods):
+
+            temp_source = ""
+            temp_source = inspect.getsource(method)
+            super_source = "\n" + temp_source + super_source
+
+
+
+            # if self.metadata:         
+            #     temp_source = "\n    # Method of Class " + method.__qualname__.split(".")[0] 
+            #     super_source = temp_source + super_source
+
+            # if "super(" not in temp_source:
+            #     break
+
+            # elif "super(" in temp_source:
+            #     if index == (length - 1):
+            #         temp_source = "\n    # There is no method '" + method.__name__ + "' available in the Super Class of " + method.__qualname__.split(".")[0] + "\n" + temp_source
+            #         super_source = temp_source + super_source
+                    
+
+            if "super(" not in temp_source:
+                if self.metadata:         
+                    temp_source = "\n    # Method of Class " + method.__qualname__.split(".")[0] 
+                    super_source = temp_source + super_source
+                break
+
+            elif "super(" in temp_source:
+                if self.metadata:         
+                    temp_source = "\n    # Method of Class " + method.__qualname__.split(".")[0] 
+                    
+                    if index == (length - 1):
+                        temp_source = "\n    # There is no method '" + method.__name__ + "' available in the Super Class of " + method.__qualname__.split(".")[0] + "\n" + temp_source
+                    
+                    super_source = temp_source + super_source
+
+        return super_source
+
     def get_raw_string(self):
         return repr(self.final_source_code)
 

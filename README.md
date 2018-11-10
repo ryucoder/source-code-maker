@@ -2,7 +2,7 @@
 SourceCodeMaker solves a real life problem of every python developer on the planet <br>
 i.e. getting the Final Source Code of a Python Class that was extended from multiple classes. 
 
-Class Based Views in Django are very hard to understand, as the class is being extended from many different classes and mixins. 
+Best example of this would be Class Based Views in Django. CBV in Django are very hard to understand, as the class is being extended from many different classes and mixins. 
 As the source code is scattered across multiple different python files and classes, understanding them can be very tricky 
 and time consuming. Because none can see the final source code of the CBV in one single place. 
 It becomes even messier because of the super() in python :dizzy_face:. Debugging is a real pain in the ass :joy:.

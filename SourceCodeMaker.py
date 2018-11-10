@@ -1,6 +1,5 @@
 from pprint import pprint 
 import inspect  
-from File001 import Hero, Base
 
 
 class SourceCodeMaker(object):
@@ -104,7 +103,7 @@ class SourceCodeMaker(object):
 
             if self.metadata:
                 if temp_attrs == "":
-                    temp += "\n    # No attributes are defined inside this class"
+                    temp += "    # No attributes are defined inside this class" + "\n"
                 elif temp_attrs != "" and temp.strip() == "# Attributes of Class " + parent.__name__:
                     # this is not enough. User needs to know which attributes were overwritten
                     # Still needs a better way to process attibutes

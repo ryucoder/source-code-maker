@@ -1,13 +1,17 @@
-
+from pprint import pprint
 from SourceCodeMaker import SourceCodeMaker
 from File001 import Hero, Base, Zero, Comments
-
+from django.views.generic import TemplateView, CreateView
 
 def main():
     print()
     # source = SourceCodeMaker(Hero, metadata=True)
-    source = SourceCodeMaker(Hero)
+    # source = SourceCodeMaker(Hero)
+    source = SourceCodeMaker(CreateView, metadata=True)
+    # source = SourceCodeMaker(CreateView)
     print(source.final_source_code)
+    pprint(source.methods)
+    pprint(source.methods_source_code)
     
 
 if __name__ == "__main__":

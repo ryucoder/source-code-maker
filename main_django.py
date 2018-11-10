@@ -3,6 +3,7 @@ import sys
 import django
 import inspect
 import importlib
+from django.views.generic import (TemplateView, CreateView, ListView, DetailView, UpdateView, DeleteView)
 
 from pprint import pprint
 
@@ -107,6 +108,21 @@ def sort_based_on_mro_count(classes):
     return sorted_klasses
 
 
+def generate_source_CRUD():
+        django_cbv = [TemplateView, CreateView, ListView,
+                      DetailView, UpdateView, DeleteView]
+
+        for view in django_cbv:
+            view_source = SourceCodeMaker(
+                view, metadata=True).final_source_code
+            file_name = view.__name__ + ".txt"
+            view_file = open(file_name, "w")
+
+            for line in view_source.splitlines():
+                view_file.write(line + "\n")
+            view_file.close()
+
+
 def main():
     global mixins   
     global views
@@ -136,24 +152,28 @@ def main():
     print("Other Classes: ", others_length)
     print("Total Classes: ", total_length)
 
-    os.remove('code_inspect.txt')
-    os.remove('code_sourcecodemaker.txt')
+    # Utility method to generate sources of nost common generic views in django
+    # django_cbv = [TemplateView, CreateView, ListView, DetailView, UpdateView, DeleteView]
+    # generate_source_CRUD()
+    
+    # os.remove('code_inspect.txt')
+    # os.remove('code_sourcecodemaker.txt')
 
-    for klass in mixins:
-        if klass[1] == 3:
-            fi = open('code_inspect.txt', 'a')
-            scm = open('code_sourcecodemaker.txt', 'a')
+    # for klass in mixins:
+    #     if klass[1] == 3:
+    #         fi = open('code_inspect.txt', 'a')
+    #         scm = open('code_sourcecodemaker.txt', 'a')
 
-            fi.write("****************************************\n")
-            fi.write(inspect.getsource(klass[0]))
-            fi.write("****************************************\n\n")
+    #         fi.write("****************************************\n")
+    #         fi.write(inspect.getsource(klass[0]))
+    #         fi.write("****************************************\n\n")
 
-            scm.write("****************************************\n")
-            scm.write(SourceCodeMaker(klass[0]).final_source_code)
-            scm.write("****************************************\n\n")
+    #         scm.write("****************************************\n")
+    #         scm.write(SourceCodeMaker(klass[0]).final_source_code)
+    #         scm.write("****************************************\n\n")
             
-            fi.close()
-            scm.close()
+    #         fi.close()
+    #         scm.close()
 
 
 if __name__ == "__main__":

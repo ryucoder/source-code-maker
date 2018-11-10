@@ -12,8 +12,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # get source of super methods from mro if super is called in any methods
-
 
 # This is a typical Dynamic Programming problem. 
 # Once everything is working as expected,

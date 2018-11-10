@@ -177,7 +177,9 @@ class SourceCodeMaker(object):
         for klass in self.mro[0:-1]:
 
             if self.metadata:
-                source += "\n    # Methods defined in Class " + klass.__name__
+                source += '\n    """\n'
+                source += "    Methods defined in Class " + klass.__name__
+                source += '\n    """\n'
 
             if len(self.methods.get(klass.__name__, "")) > 0:
                 for method in self.methods[klass.__name__]:

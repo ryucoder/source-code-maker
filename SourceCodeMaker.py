@@ -95,6 +95,7 @@ class SourceCodeMaker(object):
             pprint(temp_attrs.splitlines())
             print()
 
+            # Required to extract multiline variables properly
             extracted_variables = {}
             last_key = ""
             for temp_line in temp_attrs.splitlines():

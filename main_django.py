@@ -113,8 +113,7 @@ def generate_source_CRUD():
                       DetailView, UpdateView, DeleteView]
 
         for view in django_cbv:
-            view_source = SourceCodeMaker(
-                view, metadata=True).final_source_code
+            view_source = SourceCodeMaker(view, metadata=True).final_source_code
             file_name = view.__name__ + ".txt"
             view_file = open(file_name, "w")
 

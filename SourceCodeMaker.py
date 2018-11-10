@@ -90,11 +90,43 @@ class SourceCodeMaker(object):
     
             temp_attrs = self._get_attributes_of_one_class(parent)
 
+            print()
+            print("temp_attrs")
+            pprint(temp_attrs.splitlines())
+            print()
+
+            extracted_variables = {}
+            last_key = ""
             for temp_line in temp_attrs.splitlines():
-                if (temp_line.strip().split("=")[0] not in attrs) and (not temp_line.strip().startswith("#")):
+                if temp_line.strip() != "":
+                    split = temp_line.strip().split("=")
+                    # print(split)
+                    if len(split) == 2:
+                        last_key = split[0]
+                        # print(last_key)
+                        # print()
+                        extracted_variables[last_key] = [split[1]]
+                    elif len(split) == 1:
+                        extracted_variables[last_key].append(split[0])
+
+            print()
+            print("extracted_variables")
+            print(extracted_variables)
+            print()
+            for temp_line in temp_attrs.splitlines():
+                varname = temp_line.strip().split("=")[0]
+                if (varname not in attrs) and (not temp_line.strip().startswith("#")):
                     """ First Condition checks if the variable name is in the attrs """
                     """ Second Condition makes sure that variable name is not commented """
                     temp += "\n" + temp_line
+                else:
+                    if self.metadata and (varname != ""):
+                        temp += "\n    # " + temp_line + " # Overwritten."
+            # print()
+            # print("temp_attrs")
+            # print(temp)
+            # pprint(temp.splitlines())
+            # print()
 
            # if temp is empty string i.e. class does not have any attributes defined
             # don't add an extra empty line
@@ -104,11 +136,6 @@ class SourceCodeMaker(object):
             if self.metadata:
                 if temp_attrs == "":
                     temp += "    # No attributes are defined inside this class" + "\n"
-                elif temp_attrs != "" and temp.strip() == "# Attributes of Class " + parent.__name__:
-                    # this is not enough. User needs to know which attributes were overwritten
-                    # Still needs a better way to process attibutes
-                    temp += "    # Attributes were overwritten in above class"
-                    temp += "\n"
             
             attrs += temp
 

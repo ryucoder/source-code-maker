@@ -7,6 +7,7 @@ used to show the output of the SourceCodeMaker.
 class Base:
     name = "Default-Name"
     items = [1,2,'3',4,
+    5,7,8,9,0,6,4564,345,34,53,45,3,45,34,
     5,6,7,8,9]
     test = any([1,2,3])
     lifetime = 5
@@ -27,7 +28,11 @@ class Base:
         # super(Hero, self).hero()
 
 class Zero(Base):
+    items = ""
+    test = ""
     lifetime = None
+    name = [123,
+    123,123,12,3,123,123]
 
     def main(klass):
         print("Zero Main")
@@ -45,6 +50,7 @@ class Hero(Zero):
     
     age = 30
     lifetime = "100 years"
+    # name = "Dragon"
 
     @classmethod
     def main(self):

@@ -124,7 +124,13 @@ class SourceCodeMaker(object):
 
                 if key not in all_attrs:
                     all_attrs[key] = values
-                    temp += "\n    " + variable
+                    
+                    if key.strip().startswith("#"):
+                        if self.metadata:
+                            temp += "\n    # " + "This attribute was commented." 
+                            temp += "\n    " + variable
+                    else:
+                        temp += "\n    " + variable
                 else:
                     if self.metadata:
                         temp += "\n    # Overwritten\n" 
@@ -138,17 +144,6 @@ class SourceCodeMaker(object):
             # print("PARENT ENDED")
             # print("****************************")
             # print()
-
-            # for temp_line in class_attrs.splitlines():
-            #     varname = temp_line.strip().split("=")[0]
-            #     if (varname not in attrs) and (not temp_line.strip().startswith("#")):
-            #         """ First Condition checks if the variable name is in the attrs """
-            #         """ Second Condition makes sure that variable name is not commented """
-            #         temp += "\n" + temp_line
-            #     else:
-            #         if self.metadata and (varname != ""):
-            #             temp += "\n    # " + temp_line + " # Overwritten."
-
 
            # if temp is empty string i.e. class does not have any attributes defined
             # don't add an extra empty line

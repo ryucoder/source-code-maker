@@ -106,10 +106,38 @@ class SourceCodeMaker(object):
                     elif len(split) == 1:
                         extracted_variables[last_key].append(split[0])
 
+            # print()
+            # print("extracted_variables")
+            # print(extracted_variables)
+            # print("all_attrs")
+            # print(all_attrs)
+            # print()
+
             for key, values in extracted_variables.items():
+                values_source = ""
+                values_source += values[0] + "\n"
+
+                for line in values[1:]:
+                    values_source += "        " + line + "\n"
+                
+                variable = key + " = " + values_source
+
                 if key not in all_attrs:
                     all_attrs[key] = values
+                    temp += "\n    " + variable
+                else:
+                    if self.metadata:
+                        temp += "\n    # Overwritten\n" 
+                        for line in variable.splitlines():
+                            temp += "    # " + line + "\n" 
 
+            # print("all_attrs")
+            # print(all_attrs)
+            # print()
+
+            # print("PARENT ENDED")
+            # print("****************************")
+            # print()
 
             # for temp_line in class_attrs.splitlines():
             #     varname = temp_line.strip().split("=")[0]
@@ -127,16 +155,8 @@ class SourceCodeMaker(object):
             if temp != "":
                 temp += "\n"
 
-            print("222" + temp + "333")
-            print("class_attrs")
-            print(class_attrs)
-            print("222" + class_attrs + "333")
-            print()
             if self.metadata:
-                print("Inside metadata")
-                print(repr(class_attrs))
                 if class_attrs.strip() == "" or class_attrs.strip() == "\n":
-                    print("Inside class_attrs")
                     temp += "    # No attributes are defined inside this class" + "\n"
             
             attrs += temp

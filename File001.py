@@ -46,7 +46,10 @@ class Zero(Base):
 
 
 class Hero(Zero):
-    
+    items = ""
+    age = 30
+    lifetime = "100 years"
+    # name = "Dragon"
 
     @classmethod
     def main(self):

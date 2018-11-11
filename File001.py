@@ -28,7 +28,6 @@ class Base:
         # super(Hero, self).hero()
 
 class Zero(Base):
-    items = ""
     test = ""
     lifetime = None
     name = [123,
@@ -48,9 +47,6 @@ class Zero(Base):
 
 class Hero(Zero):
     
-    age = 30
-    lifetime = "100 years"
-    # name = "Dragon"
 
     @classmethod
     def main(self):

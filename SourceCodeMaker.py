@@ -78,7 +78,7 @@ class SourceCodeMaker(object):
     def _get_all_attributes_source(self):
 
         attrs = ""
-
+        all_attrs = {}
         mro = self.class_name.mro()
         parent_classes = mro[0:-1]
 
@@ -88,17 +88,13 @@ class SourceCodeMaker(object):
             if self.metadata:
                 temp += '\n    # Attributes of Class ' + parent.__name__
     
-            temp_attrs = self._get_attributes_of_one_class(parent)
-
-            print()
-            print("temp_attrs")
-            pprint(temp_attrs.splitlines())
-            print()
+            class_attrs = self._get_attributes_of_one_class(parent)
 
             # Required to extract multiline variables properly
             extracted_variables = {}
             last_key = ""
-            for temp_line in temp_attrs.splitlines():
+            
+            for temp_line in class_attrs.splitlines():
                 if temp_line.strip() != "":
                     split = temp_line.strip().split("=")
                     # print(split)
@@ -110,32 +106,37 @@ class SourceCodeMaker(object):
                     elif len(split) == 1:
                         extracted_variables[last_key].append(split[0])
 
-            print()
-            print("extracted_variables")
-            print(extracted_variables)
-            print()
-            for temp_line in temp_attrs.splitlines():
-                varname = temp_line.strip().split("=")[0]
-                if (varname not in attrs) and (not temp_line.strip().startswith("#")):
-                    """ First Condition checks if the variable name is in the attrs """
-                    """ Second Condition makes sure that variable name is not commented """
-                    temp += "\n" + temp_line
-                else:
-                    if self.metadata and (varname != ""):
-                        temp += "\n    # " + temp_line + " # Overwritten."
-            # print()
-            # print("temp_attrs")
-            # print(temp)
-            # pprint(temp.splitlines())
-            # print()
+            for key, values in extracted_variables.items():
+                if key not in all_attrs:
+                    all_attrs[key] = values
+
+
+            # for temp_line in class_attrs.splitlines():
+            #     varname = temp_line.strip().split("=")[0]
+            #     if (varname not in attrs) and (not temp_line.strip().startswith("#")):
+            #         """ First Condition checks if the variable name is in the attrs """
+            #         """ Second Condition makes sure that variable name is not commented """
+            #         temp += "\n" + temp_line
+            #     else:
+            #         if self.metadata and (varname != ""):
+            #             temp += "\n    # " + temp_line + " # Overwritten."
+
 
            # if temp is empty string i.e. class does not have any attributes defined
             # don't add an extra empty line
             if temp != "":
                 temp += "\n"
 
+            print("222" + temp + "333")
+            print("class_attrs")
+            print(class_attrs)
+            print("222" + class_attrs + "333")
+            print()
             if self.metadata:
-                if temp_attrs == "":
+                print("Inside metadata")
+                print(repr(class_attrs))
+                if class_attrs.strip() == "" or class_attrs.strip() == "\n":
+                    print("Inside class_attrs")
                     temp += "    # No attributes are defined inside this class" + "\n"
             
             attrs += temp

@@ -5,10 +5,15 @@ from File001 import Hero, Base, Zero, Comments
 
 def main():
     print()
-    source = SourceCodeMaker(Hero, metadata=True)
-    # source = SourceCodeMaker(Hero)
+    source = SourceCodeMaker(Hero)
+    # source = SourceCodeMaker(Hero, metadata=True)
     # print(source.final_source_code)    
-    source.dump_to_specific_folder(folder_path="C:\\Users\\Rajkanta\\Desktop\\Ebooks")
+    
+    source.dump_to_current_folder()
+    
+    # path = "type_absolute_path_of_folder_here"
+    # source.dump_to_specific_folder(path)
+
 
 if __name__ == "__main__":
     main()

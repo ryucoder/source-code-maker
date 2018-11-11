@@ -301,9 +301,16 @@ class SourceCodeMaker(object):
         for line in self.final_source_code.splitlines():
             source_file.write(line + "\n")
         source_file.close()
-        
+
+        self._print_result(full_path)
+
+    def _print_result(self, full_path):
         print()
-        print(full_path + " was created successfully.")
+        print("************************************")
+        print("SourceCodeMaker Rocks!")
+        print()
+        print(full_path + " file was created successfully.")
+        print("************************************")
         print()
 
     def dump_to_current_folder(self):
@@ -311,9 +318,9 @@ class SourceCodeMaker(object):
         """ E.g. if the class name was CreateView, this method would create a new file CreateView.py """
         """ Location of this new CreateView.py file would be the folder of the file from which SourceCodeMaker was called. """
         
-        # Need help
-        # read the path of the file that called this function dynamically and
-        # store it in the variable folder_path
+        frame = inspect.stack()[1]
+        filename = frame[0].f_code.co_filename
+        folder_path = os.path.dirname(filename)
 
         if os.path.isabs(folder_path):
             self._dump_file(folder_path)
@@ -323,7 +330,12 @@ class SourceCodeMaker(object):
     def dump_to_specific_folder(self, folder_path=None):
         """ Takes location of a folder to store the newly created .py file """
         import traceback
-
+        print()
+        # stack = traceback.print_exc()
+        stack = traceback.format_exc()
+        print(stack)
+        print(type(stack))
+        print()
         if folder_path == None:
             raise Exception("You must provide the folder_path keyword variable.")
         else:

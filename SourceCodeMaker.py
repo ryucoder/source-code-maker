@@ -290,8 +290,19 @@ class SourceCodeMaker(object):
         return super_source
 
     def get_raw_string(self):
+        """ Returns the raw string format of the final source code of the class """
         return repr(self.final_source_code)
 
+    def dump_to_file(self):
+        """ Creates a new file for the source code with the name of the class with .py extension """
+        """ E.g. if the class name was CreateView, this method would create a new file CreateView.py """
+        """ Location of this new CreateView.py file would be the folder of the file from which SourceCodeMaker was called. """
+        pass
+
+    def dump_to_folder(self, folder_path):
+        """ Takes location of a folder to store the newly created .py file """
+        pass
+        
     # def _get_all_attributes_source(self):
     #  """ This commented code is kept for future reference only. """
     #     attrs = ""

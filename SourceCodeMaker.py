@@ -108,13 +108,6 @@ class SourceCodeMaker(object):
                     elif len(split) == 1:
                         extracted_variables[last_key].append(split[0])
 
-            # print()
-            # print("extracted_variables")
-            # print(extracted_variables)
-            # print("all_attrs")
-            # print(all_attrs)
-            # print()
-
             for key, values in extracted_variables.items():
                 values_source = ""
                 values_source += values[0] + "\n"
@@ -139,13 +132,6 @@ class SourceCodeMaker(object):
                         for line in variable.splitlines():
                             temp += "    # " + line + "\n" 
 
-            # print("all_attrs")
-            # print(all_attrs)
-            # print()
-
-            # print("PARENT ENDED")
-            # print("****************************")
-            # print()
 
            # if temp is empty string i.e. class does not have any attributes defined
             # don't add an extra empty line
@@ -329,13 +315,7 @@ class SourceCodeMaker(object):
 
     def dump_to_specific_folder(self, folder_path=None):
         """ Takes location of a folder to store the newly created .py file """
-        import traceback
-        print()
-        # stack = traceback.print_exc()
-        stack = traceback.format_exc()
-        print(stack)
-        print(type(stack))
-        print()
+        
         if folder_path == None:
             raise Exception("You must provide the folder_path keyword variable.")
         else:
@@ -344,24 +324,3 @@ class SourceCodeMaker(object):
     def get_raw_string(self):
         """ Returns the raw string format of the final source code of the class """
         return repr(self.final_source_code)
-
-
-    # def _get_all_attributes_source(self):
-    #  """ This commented code is kept for future reference only. """
-    #     attrs = ""
-
-    #     for attribute in self.attributes:
-    #         attrs += "    " + str(attribute[0]) + " = "
-
-    #         """ This is dumb way of doing things """
-    #         """ Needs a better way to do this """
-    #         """ Otherwise needs to add elif causes for every new type of datatype """
-    #         if type(attribute[1]) == type(str()):
-    #             attrs += '"' + str(attribute[1]) + '"'
-    #         elif type(attribute[1]) == type(int()):
-    #             attrs += str(attribute[1])
-    #         """ Quick Fix Ends Here """
-
-    #         attrs += "\n"
-
-    #     return attrs

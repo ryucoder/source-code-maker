@@ -1,5 +1,7 @@
-from pprint import pprint 
 import inspect  
+import os 
+
+from pprint import pprint 
 
 
 class SourceCodeMaker(object):
@@ -289,20 +291,49 @@ class SourceCodeMaker(object):
 
         return super_source
 
+    def _dump_file(self, folder_path=None):
+        if folder_path == None:
+            raise Exception("You must provide the folder_path keyword variable in _dump_file() method.")
+        
+        full_path = os.path.join(folder_path, self.class_name.__name__ + ".py")
+
+        source_file = open(full_path, 'w')
+        for line in self.final_source_code.splitlines():
+            source_file.write(line + "\n")
+        source_file.close()
+        
+        print()
+        print(full_path + " was created successfully.")
+        print()
+
+    def dump_to_current_folder(self):
+        """ Creates a new file for the source code with the name of the class with .py extension """
+        """ E.g. if the class name was CreateView, this method would create a new file CreateView.py """
+        """ Location of this new CreateView.py file would be the folder of the file from which SourceCodeMaker was called. """
+        
+        # Need help
+        # read the path of the file that called this function dynamically and
+        # store it in the variable folder_path
+
+        if os.path.isabs(folder_path):
+            self._dump_file(folder_path)
+        else:
+            raise Exception("Something is wrong with the current path of the file.")
+
+    def dump_to_specific_folder(self, folder_path=None):
+        """ Takes location of a folder to store the newly created .py file """
+        import traceback
+
+        if folder_path == None:
+            raise Exception("You must provide the folder_path keyword variable.")
+        else:
+            self._dump_file(folder_path)
+
     def get_raw_string(self):
         """ Returns the raw string format of the final source code of the class """
         return repr(self.final_source_code)
 
-    def dump_to_file(self):
-        """ Creates a new file for the source code with the name of the class with .py extension """
-        """ E.g. if the class name was CreateView, this method would create a new file CreateView.py """
-        """ Location of this new CreateView.py file would be the folder of the file from which SourceCodeMaker was called. """
-        pass
 
-    def dump_to_folder(self, folder_path):
-        """ Takes location of a folder to store the newly created .py file """
-        pass
-        
     # def _get_all_attributes_source(self):
     #  """ This commented code is kept for future reference only. """
     #     attrs = ""

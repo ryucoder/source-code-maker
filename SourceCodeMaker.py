@@ -296,11 +296,18 @@ class SourceCodeMaker(object):
     def _print_result(self, full_path):
         print()
         print("************************************")
+        print()
         print("SourceCodeMaker Rocks!")
         print()
-        print(full_path + " file was created successfully.")
+        print("Source Code of the "
+              + str(self.class_name)
+              + " was created successfully in below file.")
+        print()
+        print(full_path)
+        print()
         print("************************************")
         print()
+
 
     def dump_to_current_folder(self):
         """ Creates a new file for the source code with the name of the class with .py extension """

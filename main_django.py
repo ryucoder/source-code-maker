@@ -109,17 +109,18 @@ def sort_based_on_mro_count(classes):
 
 
 def generate_source_CRUD():
-        django_cbv = [TemplateView, CreateView, ListView,
-                      DetailView, UpdateView, DeleteView]
+    django_cbv = [TemplateView, CreateView, ListView,
+                    DetailView, UpdateView, DeleteView]
 
-        for view in django_cbv:
-            view_source = SourceCodeMaker(view, metadata=True).final_source_code
-            file_name = view.__name__ + ".txt"
-            view_file = open(file_name, "w")
+    for view in django_cbv:
+        view_source = SourceCodeMaker(view, metadata=True).final_source_code
+        file_name = view.__name__ + ".txt"
+        view_file = open(file_name, "w")
 
-            for line in view_source.splitlines():
-                view_file.write(line + "\n")
-            view_file.close()
+        for line in view_source.splitlines():
+            view_file.write(line + "\n")
+        
+        view_file.close()
 
 
 def main():

@@ -5,14 +5,14 @@ from File001 import Hero, Base, Zero, Comments
 
 def main():
     print()
-    source = SourceCodeMaker(Hero)
-    # source = SourceCodeMaker(Hero, metadata=True)
+    # source = SourceCodeMaker(Hero)
+    source = SourceCodeMaker(Hero, metadata=True)
     # print(source.final_source_code)    
     
-    source.dump_to_current_folder()
+    source.dump_source_to_current_folder()
     
     # path = "type_absolute_path_of_folder_here"
-    # source.dump_to_specific_folder(path)
+    # source.dump_source_to_specific_folder(path)
 
 
 if __name__ == "__main__":

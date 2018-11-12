@@ -309,7 +309,7 @@ class SourceCodeMaker(object):
         print()
 
 
-    def dump_to_current_folder(self):
+    def dump_source_to_current_folder(self):
         """ Creates a new file for the source code with the name of the class with .py extension """
         """ E.g. if the class name was CreateView, this method would create a new file CreateView.py """
         """ Location of this new CreateView.py file would be the folder of the file from which SourceCodeMaker was called. """
@@ -323,7 +323,7 @@ class SourceCodeMaker(object):
         else:
             raise Exception("Something is wrong with the current path of the file.")
 
-    def dump_to_specific_folder(self, folder_path=None):
+    def dump_source_to_specific_folder(self, folder_path=None):
         """ Takes location of a folder to store the newly created .py file """
         
         if folder_path == None:

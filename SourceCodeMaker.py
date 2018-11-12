@@ -18,7 +18,10 @@ class SourceCodeMaker(object):
 
     def __init__(self, className, metadata=False):
 
-        # check if className is class or not. if not raise an error
+        if not inspect.isclass(className):
+            raise Exception("SourceCodeMaker expects a class."
+                            + " Provided className attribute is not a class."
+                            + " It is of type " + str(type(className)))
 
         self.class_name = className
         self.mro = self.class_name.mro()

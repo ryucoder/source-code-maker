@@ -158,8 +158,36 @@ def main():
     # django_cbv = [TemplateView, CreateView, ListView, DetailView, UpdateView, DeleteView]
     # generate_source_CRUD()
 
-    from django.http.response import HttpResponse
-    SourceCodeMaker(CreateView, metadata=True).dump_source_to_current_folder(mode="w")
+    from django.views.generic.dates import DateMixin
+    source = SourceCodeMaker(DateMixin, metadata=True)
+
+    pprint(source.attributes_and_methods)
+    print()
+    pprint(source.attributes)
+    print()
+    pprint(source.methods)
+    print()
+    source.dump_source_to_current_folder(mode="w")
+
+
+    # from django.utils.functional import cached_property
+
+    # def main():
+    #     pass
+
+    # test = cached_property(main)
+    # print()
+    # print(main)
+    # print(cached_property)
+    # print(test)
+    # print(inspect.isclass(cached_property))
+    # print(callable(cached_property))
+    # print()
+
+    # @cached_property
+    # def uses_datetime_field(self):
+
+
     # SourceCodeMaker(CreateView).dump_source_to_current_folder(mode="w")
     # count = 0
     # for classname in others:

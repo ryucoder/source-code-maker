@@ -51,11 +51,24 @@ class SourceCodeMaker(object):
         self.attributes = []
         self.methods = []
         
+        print()
+        print("Attributes Before")
+        print(self.attributes)
+        print()
+
         for item in self.attributes_and_methods:
+            print()
+            print(item)
+            print(callable(item[1]))
+            print()
             if callable(item[1]):
                 self.methods.append(item)
             else:
                 self.attributes.append(item)
+        print()
+        print("Attributes After")
+        print(self.attributes)
+        print()
             
     def _get_final_source_code(self):
         """ Main function that creates the source code of the class """
@@ -295,15 +308,15 @@ class SourceCodeMaker(object):
         full_path = os.path.join(folder_path, self.class_name.__name__ + ".py")
 
         # Location of the class_name in the folder
-        location = self.class_name.__module__
+        location = inspect.getabsfile(self.class_name)
 
         source_file = open(full_path, mode)
         
         # Writing the location of the file
         source_file.write("'''" + "\n")
         source_file.write("****************************************" + "\n")
-        source_file.write("Location of the Class " 
-                          + self.class_name.__name__ + " : " + location + "\n")
+        source_file.write("Location of the Class " + self.class_name.__name__ + " : " + "\n")
+        source_file.write(location + "\n")
         source_file.write("****************************************" + "\n")
         source_file.write("'''" + "\n")
 

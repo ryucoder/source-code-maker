@@ -1,14 +1,7 @@
-Wrong ones : 
-1. DateMixin 
-    @cached_property
-    def uses_datetime_field(self):
 
+Update read me on how to ad more magic methods 
 
-Suggested Upgrades: 
-1. if metadata=False 
-then dont show newline after every attribute
-
-2. 
+1.
 
 __setitem__
 __delitem__
@@ -25,7 +18,14 @@ __or__
 
 ALLOWED_MAGIC_METHODS = []
 
-# list of not allowed magic methods 
+
+
+
+Wrong ones : 
+1. DateMixin 
+    @cached_property
+    def uses_datetime_field(self):
+
 
 3. If an attributes or code is written in between methods 
 it is not shown in SCM.

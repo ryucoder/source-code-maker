@@ -280,13 +280,13 @@ class SourceCodeMaker(object):
 
         return super_source
 
-    def _dump_file(self, folder_path=None):
+    def _dump_file(self, folder_path=None, mode="w"):
         if folder_path == None:
             raise Exception("You must provide the folder_path keyword variable in _dump_file() method.")
         
         full_path = os.path.join(folder_path, self.class_name.__name__ + ".py")
 
-        source_file = open(full_path, 'w')
+        source_file = open(full_path, mode)
         for line in self.final_source_code.splitlines():
             source_file.write(line + "\n")
         source_file.close()
@@ -308,8 +308,7 @@ class SourceCodeMaker(object):
         print("************************************")
         print()
 
-
-    def dump_source_to_current_folder(self):
+    def dump_source_to_current_folder(self, mode="w"):
         """ Creates a new file for the source code with the name of the class with .py extension """
         """ E.g. if the class name was CreateView, this method would create a new file CreateView.py """
         """ Location of this new CreateView.py file would be the folder of the file from which SourceCodeMaker was called. """
@@ -319,7 +318,7 @@ class SourceCodeMaker(object):
         folder_path = os.path.dirname(filename)
 
         if os.path.isabs(folder_path):
-            self._dump_file(folder_path)
+            self._dump_file(folder_path, mode)
         else:
             raise Exception("Something is wrong with the current path of the file.")
 

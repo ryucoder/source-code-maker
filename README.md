@@ -16,8 +16,8 @@ That's not it, it takes it even further. Send kwarg metadata=True to SourceCodeM
 
 # Why to use it? What is the benefit of this?
 It's intended to make the life of a developer little bit easy. It is most useful during the development process. <br>
-Especially debugging classes that were extended from multiple classes. <br> <br>
- 
+Especially debugging classes that were extended from multiple classes. <br>
+
 Just make sure to pass metadata=True to the constructor, <br> 
 you will get much information that is otherwise not readily available in one single place. <br>
 

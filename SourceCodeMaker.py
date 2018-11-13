@@ -289,7 +289,7 @@ class SourceCodeMaker(object):
 
         # Location of the class_name in the folder
         location = self.class_name.__module__
-        
+
         source_file = open(full_path, mode)
         
         # Writing the location of the file
@@ -313,8 +313,8 @@ class SourceCodeMaker(object):
         print()
         print("SourceCodeMaker Rocks!")
         print()
-        print("Source Code of the "
-              + str(self.class_name)
+        print("Source Code of the class "
+              + self.class_name.__name__
               + " was created successfully in below file.")
         print()
         print(full_path)

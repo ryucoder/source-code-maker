@@ -22,7 +22,7 @@ you will get much information that is otherwise not readily available in one sin
 
 
 # How to use it?
-It's damn simple. Please refer to below examples or more details. <br>
+It's damn simple. Please refer to below examples for more details. <br>
 
 # Example No.1 :
 

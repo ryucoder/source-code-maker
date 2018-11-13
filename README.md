@@ -87,3 +87,19 @@ from django.views.generic import CreateView <br>
 
 abs_path = "Type the full absolute path of a folder" <br>
 source = SoureCodeMaker(CreateView).dump_source_to_specific_folder(abs_path) <br>
+
+
+
+# Example No.5 :
+If for reason, you wish to access the final source code in raw string format, <br>
+just give a call to get_raw_string() method of the SourceCodeMaker class. <br>
+
+***** main.py *****
+
+from SourceCodeMaker import SourceCodeMaker <br>
+from django.views.generic import CreateView <br>
+
+
+source = SoureCodeMaker(CreateView) <br>
+raw_source = source.get_raw_string() <br>
+print(raw_source) <br>

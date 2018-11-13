@@ -14,9 +14,9 @@ All of above problems are solved with just one line of code 😎.
 That's not it, it takes it even further. Send kwarg metadata=True to SourceCodeMaker constructor and added information like MRO, which attributes and methods belongs to which class are also shown :metal: :clap: :+1:.
 
 
-The question now is, How to use it?
+# How to use it?
 
-Example No.1 :
+# Example No.1 :
 ***** main.py *****
 
 from SourceCodeMaker import SourceCodeMaker
@@ -28,21 +28,21 @@ print(source)
 
 
 
-Example No.2 :
+# Example No.2 :
 ***** main.py *****
 
 from SourceCodeMaker import SourceCodeMaker
 from django.views.generic import CreateView
 
 
-# This will show some metadata information of the class.
-# Metadata includes the method resolution order (MRO) of the class.
-# Metadata also includes which attributes and methods belongs to which class in the mro.
+This will show some metadata information of the class.
+Metadata includes the method resolution order (MRO) of the class.
+Metadata also includes which attributes and methods belongs to which class in the mro.
 source = SoureCodeMaker(CreateView, metadata=True).final_source_code
 
 
 
-Example No.3 :
+# Example No.3 :
 ***** main.py *****
 
 from SourceCodeMaker import SourceCodeMaker
@@ -55,7 +55,7 @@ source = SoureCodeMaker(CreateView).dump_source_to_current_folder()
 
 
 
-Example No.4 :
+# Example No.4 :
 ***** main.py *****
 
 from SourceCodeMaker import SourceCodeMaker

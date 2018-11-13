@@ -15,8 +15,14 @@ That's not it, it takes it even further. Send kwarg metadata=True to SourceCodeM
 
 
 # How to use it?
+It's damn simple. Please refer to below examples or more details.
 
 # Example No.1 :
+
+All you have to do is import the SourceCodeMaker class and give call to its constructor <br>
+and you can access the final source code of that class in the final_cource_code attribute. Tada!
+If call to super() was given inside a method, its source code is also shown. <br>
+
 ***** main.py *****
 
 from SourceCodeMaker import SourceCodeMaker <br>
@@ -29,42 +35,47 @@ print(source) <br>
 
 
 # Example No.2 :
+
+Passing metadata=True in the constructor will show some metadata information of the class. <br>
+Metadata includes the method resolution order (MRO) of the class. <br>
+Metadata also includes which attributes and methods belongs to which class in the mro. <br>
+If some attributes are overwritten in a parent class that is also shown in the source code. <br>
+If call to super() was given inside a method, its source code is also shown. <br>
+
 ***** main.py *****
 
 from SourceCodeMaker import SourceCodeMaker <br>
 from django.views.generic import CreateView <br>
 
-
-This will show some metadata information of the class. <br>
-Metadata includes the method resolution order (MRO) of the class. <br>
-Metadata also includes which attributes and methods belongs to which class in the mro. <br>
 
 source = SoureCodeMaker(CreateView, metadata=True).final_source_code <br>
 
 
 
 # Example No.3 :
+If the main.py file was inside the desktop folder <br>
+a new file would be created in that same folder with the name of the class, in this case CreateView.py <br>
+
+
 ***** main.py *****
 
 from SourceCodeMaker import SourceCodeMaker <br>
 from django.views.generic import CreateView <br>
 
-if the main.py file was inside the desktop folder <br>
-a new file would be created in that folder with the name of the class <br> 
-in this case CreateView.py <br>
 
 source = SoureCodeMaker(CreateView).dump_source_to_current_folder() <br>
 
 
 
 # Example No.4 :
+If the main.py file was inside the desktop folder and absolute path is given,
+a new file would be created in the folder that you specify as the abs_path 
+
 ***** main.py *****
 
 from SourceCodeMaker import SourceCodeMaker <br>
 from django.views.generic import CreateView <br>
 
-if the main.py file was inside the desktop folder
-a new file would be created in the folder that you specify as the abs_path 
 
 abs_path = "Type the full absolute path of a folder" <br>
 source = SoureCodeMaker(CreateView).dump_source_to_specific_folder(abs_path) <br>

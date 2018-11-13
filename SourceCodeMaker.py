@@ -15,7 +15,8 @@ class SourceCodeMaker(object):
     attributes_source_code = None 
     methods_source_code = None 
     final_source_code = None 
-
+    ALLOWED_MAGIC_METHODS = ["__init__", "__str__", "__repr__", "__enter__", "__exit__",
+                             "__get__"]
     def __init__(self, className, metadata=False):
 
         if not inspect.isclass(className):
@@ -37,7 +38,7 @@ class SourceCodeMaker(object):
         members = inspect.getmembers(self.class_name)
 
         for member in members:
-            if (member[0].startswith("__") != True) or (member[0] == "__init__"):
+            if (member[0].startswith("__") != True) or (member[0] in self.ALLOWED_MAGIC_METHODS):
                 # First condition adds all the non __name__ type variables
                 # Second conditions allows the __init__ method to be added
                 attrs.append(member)

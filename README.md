@@ -12,3 +12,57 @@ Just give a call the constructor of a SourceCodeMaker and the source code is ava
 All of above problems are solved with just one line of code 😎.
 
 That's not it, it takes it even further. Send kwarg metadata=True to SourceCodeMaker constructor and added information like MRO, which attributes and methods belongs to which class are also shown :metal: :clap: :+1:.
+
+
+The question now is, How to use it?
+
+Example No.1 :
+***** main.py *****
+
+from SourceCodeMaker import SourceCodeMaker
+from django.views.generic import CreateView
+
+
+source = SoureCodeMaker(CreateView).final_source_code
+print(source)
+
+
+
+Example No.2 :
+***** main.py *****
+
+from SourceCodeMaker import SourceCodeMaker
+from django.views.generic import CreateView
+
+
+# This will show some metadata information of the class.
+# Metadata includes the method resolution order (MRO) of the class.
+# Metadata also includes which attributes and methods belongs to which class in the mro.
+source = SoureCodeMaker(CreateView, metadata=True).final_source_code
+
+
+
+Example No.3 :
+***** main.py *****
+
+from SourceCodeMaker import SourceCodeMaker
+from django.views.generic import CreateView
+
+# if the main.py file was inside the desktop folder
+# a new file would be created in that folder with the name of the class
+# in this case CreateView.py
+source = SoureCodeMaker(CreateView).dump_source_to_current_folder()
+
+
+
+Example No.4 :
+***** main.py *****
+
+from SourceCodeMaker import SourceCodeMaker
+from django.views.generic import CreateView
+
+# if the main.py file was inside the desktop folder
+# a new file would be created in the folder that you specify as the abs_path 
+
+abs_path = "Type the full absolute path of a folder"
+source = SoureCodeMaker(CreateView).dump_source_to_specific_folder(abs_path)

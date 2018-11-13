@@ -15,12 +15,12 @@ That's not it, it takes it even further. Send kwarg metadata=True to SourceCodeM
 
 
 # How to use it?
-It's damn simple. Please refer to below examples or more details.
+It's damn simple. Please refer to below examples or more details. <br>
 
 # Example No.1 :
 
 All you have to do is import the SourceCodeMaker class and give call to its constructor <br>
-and you can access the final source code of that class in the final_cource_code attribute. Tada!
+and you can access the final source code of that class in the final_cource_code attribute. Tada! <br>
 If call to super() was given inside a method, its source code is also shown. <br>
 
 ***** main.py *****
@@ -68,8 +68,8 @@ source = SoureCodeMaker(CreateView).dump_source_to_current_folder() <br>
 
 
 # Example No.4 :
-If the main.py file was inside the desktop folder and absolute path is given,
-a new file would be created in the folder that you specify as the abs_path 
+If the main.py file was inside the desktop folder and absolute path is given, <br>
+a new file would be created in the folder that you specify as the abs_path <br>
 
 ***** main.py *****
 

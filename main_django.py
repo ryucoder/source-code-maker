@@ -151,23 +151,21 @@ def main():
     print("View Classes: ", views_length)
     print("Other Classes: ", others_length)
     print("Total Classes: ", total_length)
+    print()
+
 
     # Utility method to generate sources of nost common generic views in django
     # django_cbv = [TemplateView, CreateView, ListView, DetailView, UpdateView, DeleteView]
     # generate_source_CRUD()
-    
-    print()
-    pprint(mixins)
-    pprint(sorted(mixins))
-    print()
 
-    count = 0
-    for classname in mixins:
-        if count == 3:
-            break
-        if classname[1] == 2:
-            SourceCodeMaker(classname[0]).dump_source_to_current_folder()
-        count += 1
+    SourceCodeMaker(CreateView).dump_source_to_current_folder(mode="w")
+    # count = 0
+    # for classname in others:
+        # if count == 3:
+            # break
+        # if classname[1] == 5:
+        # SourceCodeMaker(classname[0]).dump_source_to_current_folder()
+        # count += 1
     # os.remove('code_inspect.txt')
     # os.remove('code_sourcecodemaker.txt')
 

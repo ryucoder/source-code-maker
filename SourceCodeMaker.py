@@ -286,13 +286,26 @@ class SourceCodeMaker(object):
         
         full_path = os.path.join(folder_path, self.class_name.__name__ + ".py")
 
+        # Location of the class_name in the folder
+        location = self.class_name().__str__().split()[0][1:]
+        
         source_file = open(full_path, mode)
+        
+        # Writing the location of the file
+        source_file.write("'''" + "\n")
+        source_file.write("****************************************" + "\n")
+        source_file.write("Location of the Class " 
+                          + self.class_name.__name__ + " : " + location + "\n")
+        source_file.write("****************************************" + "\n")
+        source_file.write("'''" + "\n")
+
+        # Writing the final source code the file
         for line in self.final_source_code.splitlines():
             source_file.write(line + "\n")
         source_file.close()
 
         self._print_result(full_path)
-
+    
     def _print_result(self, full_path):
         print()
         print("************************************")

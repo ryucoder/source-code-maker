@@ -287,7 +287,7 @@ class SourceCodeMaker(object):
         full_path = os.path.join(folder_path, self.class_name.__name__ + ".py")
 
         # Location of the class_name in the folder
-        location = self.class_name().__str__().split()[0][1:]
+        location = self.class_name.__module__
         
         source_file = open(full_path, mode)
         

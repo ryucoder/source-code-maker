@@ -92,7 +92,7 @@ source = SoureCodeMaker(CreateView).dump_source_to_specific_folder(abs_path) <br
 
 # Example No.5 :
 If for any reason, you wish to access the final source code in raw string format, <br>
-just give a call to get_raw_string() method of the SourceCodeMaker class. <br>
+just give a call to get_raw_source() method of the SourceCodeMaker class. <br>
 
 ***** main.py *****
 
@@ -101,5 +101,5 @@ from django.views.generic import CreateView <br>
 
 
 source = SoureCodeMaker(CreateView) <br>
-raw_source = source.get_raw_string() <br>
+raw_source = source.get_raw_source() <br>
 print(raw_source) <br>

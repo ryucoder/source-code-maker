@@ -330,6 +330,6 @@ class SourceCodeMaker(object):
         else:
             self._dump_file(folder_path)
 
-    def get_raw_string(self):
+    def get_raw_source(self):
         """ Returns the raw string format of the final source code of the class """
         return repr(self.final_source_code)

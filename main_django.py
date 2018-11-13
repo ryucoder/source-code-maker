@@ -159,7 +159,8 @@ def main():
     # generate_source_CRUD()
 
     from django.http.response import HttpResponse
-    SourceCodeMaker(CreateView).dump_source_to_current_folder(mode="w")
+    SourceCodeMaker(CreateView, metadata=True).dump_source_to_current_folder(mode="w")
+    # SourceCodeMaker(CreateView).dump_source_to_current_folder(mode="w")
     # count = 0
     # for classname in others:
         # if count == 3:

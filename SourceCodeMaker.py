@@ -17,7 +17,7 @@ class SourceCodeMaker(object):
     final_source_code = None 
     ALLOWED_MAGIC_METHODS = ["__init__", "__str__", "__repr__", "__enter__", "__exit__",
                              "__get__", "__iter__", "__next__"]
-                             
+
     def __init__(self, className, metadata=False):
 
         if not inspect.isclass(className):
@@ -78,6 +78,8 @@ class SourceCodeMaker(object):
                 classLine += "\n    # " + "Class " +  klass.__qualname__
             classLine += "\n    # ************************************************************"
         
+        classLine += "\n"
+        
         self.class_line_source_code = classLine
 
         return classLine
@@ -93,7 +95,7 @@ class SourceCodeMaker(object):
             temp = ''
     
             if self.metadata:
-                temp += '\n    # Attributes of Class ' + parent.__name__
+                temp += '\n    # Attributes of Class ' + parent.__name__ + "\n"
     
             class_attrs = self._get_attributes_of_one_class(parent)
 
@@ -130,7 +132,8 @@ class SourceCodeMaker(object):
                             temp += "\n    # " + "This attribute was commented." 
                             temp += "\n    " + variable
                     else:
-                        temp += "\n    " + variable
+                        temp += "    " + variable
+                        # temp += "\n    " + variable
                 else:
                     if self.metadata:
                         temp += "\n    # Overwritten\n" 
@@ -140,13 +143,16 @@ class SourceCodeMaker(object):
 
            # if temp is empty string i.e. class does not have any attributes defined
             # don't add an extra empty line
-            if temp != "":
-                temp += "\n"
+            # if temp != "":
+            #     temp += "\n"
 
             if self.metadata:
                 if class_attrs.strip() == "" or class_attrs.strip() == "\n":
                     temp += "    # No attributes are defined inside this class" + "\n"
-            
+            else:
+                if temp != "":
+                    temp += "\n"
+
             attrs += temp
 
         self.attributes_source_code = attrs

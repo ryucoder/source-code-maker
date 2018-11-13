@@ -56,6 +56,7 @@ from django.views.generic import CreateView <br>
 
 
 source = SoureCodeMaker(CreateView, metadata=True).final_source_code <br>
+print(source) <br>
 
 
 

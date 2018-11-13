@@ -14,6 +14,14 @@ All of above problems are solved with just one line of code 😎.
 That's not it, it takes it even further. Send kwarg metadata=True to SourceCodeMaker constructor and added information like MRO, which attributes and methods belongs to which class are also shown :metal: :clap: :+1:.
 
 
+# Why to use it? What is the benefit of this?
+It's intended to make the life of a developer little bit easy. <br>
+It is most useful during the development process. <br>
+Especially debugging classes that were extended from multiple classes. <br> 
+Just make sure to pass metadata=True to the constructor, <br> 
+you will get much information that is otherwise not readily available in one single place. <br>
+
+
 # How to use it?
 It's damn simple. Please refer to below examples or more details. <br>
 

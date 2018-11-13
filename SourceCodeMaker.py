@@ -16,7 +16,8 @@ class SourceCodeMaker(object):
     methods_source_code = None 
     final_source_code = None 
     ALLOWED_MAGIC_METHODS = ["__init__", "__str__", "__repr__", "__enter__", "__exit__",
-                             "__get__"]
+                             "__get__", "__iter__", "__next__"]
+                             
     def __init__(self, className, metadata=False):
 
         if not inspect.isclass(className):

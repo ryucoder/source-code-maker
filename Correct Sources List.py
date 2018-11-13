@@ -8,11 +8,8 @@ Suggested Upgrades:
 1. if metadata=False 
 then dont show newline after every attribute
 
-2. __repr__ is not coming in SCM 
-Same might happen below 
-__str__
-__iter__
-__get__
+2. 
+
 __setitem__
 __delitem__
 __getitem__
@@ -50,7 +47,6 @@ def content(self):
 @content.setter
 def content(self, value):
 
-__iter__
 
 
 5. HttpResponseBase not shown in SCM
@@ -93,10 +89,6 @@ def _content_type_for_repr(self):
     return ', "%s"' % self['Content-Type'] if 'Content-Type' in self else ''
 
 
-__setitem__
-__delitem__
-__getitem__
-
 
 __contains__ = has_header
 
@@ -105,13 +97,6 @@ __contains__ = has_header
 
 url = property(lambda self: self['Location'])
 
-7.  HttpResponseRedirect
-
-__repr__
-
-
-8. Each new file is created for a new class. 
-Add the location of that class first thing
 
 9 . Paginator 
 
@@ -130,8 +115,6 @@ as_manager.queryset_only = True
 as_manager = classmethod(as_manager)
 
 
-11. cached_property
-__get__
 
 
 

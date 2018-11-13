@@ -91,7 +91,7 @@ source = SoureCodeMaker(CreateView).dump_source_to_specific_folder(abs_path) <br
 
 
 # Example No.5 :
-If for reason, you wish to access the final source code in raw string format, <br>
+If for any reason, you wish to access the final source code in raw string format, <br>
 just give a call to get_raw_string() method of the SourceCodeMaker class. <br>
 
 ***** main.py *****

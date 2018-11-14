@@ -1,5 +1,31 @@
 
-Update read me on how to ad more magic methods 
+
+Correct ones:
+
+MRO count 2
+ContextMixin Correct
+DayMixin Correct
+DeletionMixin Correct
+MonthMixin Correct
+TemplateResponseMixin Correct
+WeekMixin Correct
+YearMixin Correct
+
+
+MRO count 3
+FormMixin Correct
+SingleObjectMixin Correct
+MultipleObjectMixin Correct
+SingleObjectTemplateResponseMixin Correct
+MultipleObjectTemplateResponseMixin Correct
+
+
+MRO count 5
+ModelFormMixin Correct
+
+
+
+Update read me on how to add more magic methods
 
 1.
 
@@ -21,7 +47,7 @@ ALLOWED_MAGIC_METHODS = []
 
 
 
-Wrong ones : 
+Issues to solve: 
 1. DateMixin 
     @cached_property
     def uses_datetime_field(self):
@@ -118,38 +144,12 @@ as_manager = classmethod(as_manager)
 
 
 
+Patterns across issues :- 
+1. getter, setter are not coming in SCM. (Hence deleter)
+2. Any attribute defined in between methods is not coming in SCM
+3. Methods decorated with @cached_property is not coming in SCM.
+@cached_property is a class decorator
 
-
-
-
-
-
-
-
-
-
-Correct ones : 
-
-MRO count 1
-ContextMixin Correct
-DayMixin Correct
-DeletionMixin Correct
-MonthMixin Correct
-TemplateResponseMixin Correct
-WeekMixin Correct
-YearMixin Correct
-
-
-MRO count 3
-FormMixin Correct
-SingleObjectMixin Correct
-MultipleObjectMixin Correct
-SingleObjectTemplateResponseMixin Correct
-MultipleObjectTemplateResponseMixin Correct
-
-
-MRO count 5 
-ModelFormMixin Correct
 
 
 

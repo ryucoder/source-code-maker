@@ -51,25 +51,12 @@ class SourceCodeMaker(object):
         self.attributes = []
         self.methods = []
         
-        print()
-        print("Attributes Before")
-        print(self.attributes)
-        print()
-
         for item in self.attributes_and_methods:
-            print()
-            print(item)
-            print(callable(item[1]))
-            print()
             if callable(item[1]):
                 self.methods.append(item)
             else:
                 self.attributes.append(item)
-        print()
-        print("Attributes After")
-        print(self.attributes)
-        print()
-            
+
     def _get_final_source_code(self):
         """ Main function that creates the source code of the class """
 

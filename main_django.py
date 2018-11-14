@@ -159,14 +159,8 @@ def main():
     # generate_source_CRUD()
 
     from django.views.generic.dates import DateMixin
-    source = SourceCodeMaker(DateMixin, metadata=True)
+    source = SourceCodeMaker(CreateView, metadata=True)
 
-    pprint(source.attributes_and_methods)
-    print()
-    pprint(source.attributes)
-    print()
-    pprint(source.methods)
-    print()
     source.dump_source_to_current_folder(mode="w")
 
 

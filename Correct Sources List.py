@@ -53,7 +53,7 @@ Issues to solve:
     def uses_datetime_field(self):
 
 
-3. If an attributes or code is written in between methods 
+2. If an attributes or code is written in between methods 
 it is not shown in SCM.
 
 E.g. HttpResponse 
@@ -64,7 +64,7 @@ else:
     __str__ = serialize
 
 
-4. Below code from HttpResponse is not coming in SCM
+3. Below code from HttpResponse is not coming in SCM
  
 @property
 def content(self):
@@ -75,7 +75,7 @@ def content(self, value):
 
 
 
-5. HttpResponseBase not shown in SCM
+4. HttpResponseBase not shown in SCM
 
 @property
 def reason_phrase(self):
@@ -119,12 +119,12 @@ def _content_type_for_repr(self):
 __contains__ = has_header
 
 
-6. HttpResponseRedirectBase
+5. HttpResponseRedirectBase
 
 url = property(lambda self: self['Location'])
 
 
-9 . Paginator 
+6 . Paginator 
 
 @cached_property
 def count(self):
@@ -135,7 +135,7 @@ def num_pages(self):
 @property
 def page_range(self):
 
-10. Queryset
+7. Queryset
 
 as_manager.queryset_only = True
 as_manager = classmethod(as_manager)

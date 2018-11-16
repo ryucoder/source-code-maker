@@ -10,7 +10,7 @@ def main():
     # print(source.final_source_code)    
     
     # source.dump_source_to_current_folder(mode="a")
-    print(source.get_raw_source())
+    print(source.attributes)
     
     # path = "type_absolute_path_of_folder_here"
     # source.dump_source_to_specific_folder(path)

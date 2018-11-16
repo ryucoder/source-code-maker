@@ -46,7 +46,7 @@ class Zero(Base):
 
 
 class Hero(Zero):
-    items = ""
+    items = range(9)
     age = 30
     lifetime = "100 years"
     # name = "Dragon"

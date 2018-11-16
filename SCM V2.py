@@ -27,7 +27,7 @@ class BaseMaker(object):
                 if self.attributes.get(item.defining_class.__name__, None) is None:
                     self.attributes[item.defining_class.__name__] = []
             
-                self.attributes[item.defining_class.__name__].append((item.name, item.object))
+                self.attributes[item.defining_class.__name__].append({"name": item.name, "value": item.object})
             
             elif item.kind == "method" and (item.defining_class != object): # These are methods
             
@@ -75,82 +75,37 @@ class AttributeMixin(BaseMaker):
 
     def _get_all_attributes_source(self):
 
-        attrs = ""
-        all_attrs = {}
+        all_attrs_source = ""
         parent_classes = self.mro[0:-1]
 
         for parent in parent_classes:
-            attr_source = ""
+            class_attr = ""
 
-            print(parent)
-        # for parent in parent_classes:
-        #     temp = ''
+            if self.metadata:
+                class_attr += '\n    # Attributes of Class ' + parent.__name__ + "\n"
 
-        #     if self.metadata:
-        #         temp += '\n    # Attributes of Class ' + parent.__name__ + "\n"
+            if self.attributes.get(parent.__name__, None) is not None:
 
-        #     class_attrs = self._get_attributes_of_one_class(parent)
+                for attribute in self.attributes[parent.__name__]:
+                    if attribute["value"] == "":
+                        class_attr += "    " + attribute["name"] + " = " + "''" 
+                    elif inspect.isclass(attribute["value"]):
+                        class_attr += "    " + attribute["name"] + " = " + attribute["value"].__name__ 
+                    else:
+                        class_attr += "    " + attribute["name"] + " = " + str(attribute["value"]) 
+                    
+                    class_attr += "\n"
 
-        #     # Required to extract multiline variables properly
-        #     extracted_variables = {}
-        #     last_key = ""
+                all_attrs_source += class_attr + "\n"
 
-        #     for temp_line in class_attrs.splitlines():
-        #         if temp_line.strip() != "":
-        #             split = temp_line.strip().split("=")
-        #             # print(split)
-        #             if len(split) == 2:
-        #                 last_key = split[0]
-        #                 # print(last_key)
-        #                 # print()
-        #                 extracted_variables[last_key] = [split[1]]
-        #             elif len(split) == 1:
-        #                 extracted_variables[last_key].append(split[0])
+            else:
 
-        #     for key, values in extracted_variables.items():
-        #         values_source = ""
-        #         values_source += values[0] + "\n"
-
-        #         for line in values[1:]:
-        #             values_source += "        " + line + "\n"
-
-        #         variable = key + " = " + values_source
-
-        #         if key not in all_attrs:
-        #             all_attrs[key] = values
-
-        #             if key.strip().startswith("#"):
-        #                 if self.metadata:
-        #                     temp += "\n    # " + "This attribute was commented."
-        #                     temp += "\n    " + variable
-        #             else:
-        #                 temp += "    " + variable
-        #                 # temp += "\n    " + variable
-        #         else:
-        #             if self.metadata:
-        #                 temp += "\n    # Overwritten\n"
-        #                 for line in variable.splitlines():
-        #                     temp += "    # " + line + "\n"
-
-        #    # if temp is empty string i.e. class does not have any attributes defined
-        #     # don't add an extra empty line
-        #     # if temp != "":
-        #     #     temp += "\n"
-
-        #     if self.metadata:
-        #         if class_attrs.strip() == "" or class_attrs.strip() == "\n":
-        #             temp += "    # No attributes are defined inside this class" + "\n"
-        #     else:
-        #         if temp != "":
-        #             temp += "\n"
-
-        #     attrs += temp
-
-        # self.attributes_source_code = attrs
-
-        # return attrs
-
-        return "\n Attributes \n"
+                if self.metadata:
+                    if class_attr.strip() == "# Attributes of Class " + parent.__name__:
+                        class_attr += "    " + parent.__name__ + " does not have any attributes." + "\n"
+                        all_attrs_source += class_attr + "\n"
+                 
+        return all_attrs_source
 
 
 class MethodMixin(BaseMaker):
@@ -180,16 +135,16 @@ class SCM(MethodMixin, AttributeMixin, ClassMixin):
         classLine_source = self._get_class_line()
         attributes_source = self._get_all_attributes_source()
         method_source = self._get_all_methods_source()
-        
-        final_source = "\n" + classLine_source 
-                        + "\n" + attributes_source 
-                        + "\n" + method_source
+        final_source = "\n" + classLine_source + "\n" + attributes_source + "\n" + method_source
 
         return final_source
 
 # SCM(CreateView)
 # SCM(Hero)
 
-
+from django.views.generic import CreateView
+# print(SCM(Hero).final_source_code)
 # print(SCM(Hero, metadata=True).final_source_code)
-print(SCM(DateMixin, metadata=True).final_source_code)
+print(SCM(CreateView).final_source_code)
+# print(SCM(CreateView, metadata=True).final_source_code)
+# print(SCM(DateMixin, metadata=True).final_source_code)

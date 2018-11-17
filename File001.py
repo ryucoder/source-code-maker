@@ -44,6 +44,7 @@ class Zero(Base):
     def zero(self):
         print("Zero zero")
 
+from django.utils.functional import cached_property
 
 class Hero(Zero):
     items = range(9)
@@ -51,15 +52,28 @@ class Hero(Zero):
     lifetime = "100 years"
     # name = "Dragon"
 
-    @classmethod
+    def zero():
+        pass
+
+    @cached_property
     def main(self):
         print("Hero Main")
         super(Hero, self).main()
 
+    @property
     def hero(self):
         print("Hero hero")
         super(Hero, self).hero()
 
+    @hero.setter
+    def hero(self, value):
+        print("Hero hero")
+        super(Hero, self).hero()
+
+    @hero.deleter
+    def hero(self, vars):
+        print("Hero hero")
+        super(Hero, self).hero()
 
 class Comments(object):
     """

@@ -28,34 +28,65 @@ class SourceCodeMaker(object):
         self.class_name = className
         self.mro = self.class_name.mro()
         self.metadata = metadata
-        self.attributes_and_methods = self._get_all_attrs_and_methods()
-        self._seperate_attributes_and_methods()
+        self.list_and_separate_attributes_and_methods()
+        # self.attributes_and_methods = self._get_all_attrs_and_methods()
+        # self._seperate_attributes_and_methods()
         self.final_source_code = self._get_final_source_code()
 
-    def _get_all_attrs_and_methods(self):
-        """ Returns the list of attributes and methods defined inside the class """
+    # def _get_all_attrs_and_methods(self):
+    #     """ Returns the list of attributes and methods defined inside the class """
 
-        attrs = []
-        members = inspect.getmembers(self.class_name)
+    #     attrs = []
+    #     members = inspect.getmembers(self.class_name)
 
-        for member in members:
-            if (member[0].startswith("__") != True) or (member[0] in self.ALLOWED_MAGIC_METHODS):
-                # First condition adds all the non __name__ type variables
-                # Second conditions allows the __init__ method to be added
-                attrs.append(member)
+    #     for member in members:
+    #         if (member[0].startswith("__") != True) or (member[0] in self.ALLOWED_MAGIC_METHODS):
+    #             # First condition adds all the non __name__ type variables
+    #             # Second conditions allows the __init__ method to be added
+    #             attrs.append(member)
 
-        return attrs
+    #     return attrs
     
-    def _seperate_attributes_and_methods(self):
+    # def _seperate_attributes_and_methods(self):
 
-        self.attributes = []
-        self.methods = []
+    #     self.attributes = []
+    #     self.methods = []
         
-        for item in self.attributes_and_methods:
-            if callable(item[1]):
-                self.methods.append(item)
-            else:
-                self.attributes.append(item)
+    #     for item in self.attributes_and_methods:
+    #         if callable(item[1]):
+    #             self.methods.append(item)
+    #         else:
+    #             self.attributes.append(item)
+        
+    #     print(self.attributes)
+    #     print()
+    #     print(self.methods)
+
+    def list_and_separate_attributes_and_methods(self):
+        """ This method does 2 things """
+        """ 1. lists all the attributes and methods of the class """
+        """ 2. Seperates attributes and methods based on mro"""
+
+        self.attributes = {}
+        self.methods = {}
+
+        for item in inspect.classify_class_attrs(self.class_name):
+            # print(item.name, item.kind)
+            # These are attributes
+            if item.kind == "data" and (not item.name.startswith("__")):
+
+                if self.attributes.get(item.defining_class.__name__, None) is None:
+                    self.attributes[item.defining_class.__name__] = []
+
+                self.attributes[item.defining_class.__name__].append({"name": item.name, "value": item.object})
+
+            # These are methods
+            elif ((item.kind == "method") or (item.kind == "property")) and (item.defining_class != object):
+
+                if self.methods.get(item.defining_class.__name__, None) is None:
+                    self.methods[item.defining_class.__name__] = []
+
+                self.methods[item.defining_class.__name__].append((item.name, item.object))
 
     def _get_final_source_code(self):
         """ Main function that creates the source code of the class """
@@ -214,9 +245,9 @@ class SourceCodeMaker(object):
 
         source = ""
 
-        self._sort_methods_based_on_classname()
-
+        # pprint(self.methods)
         for klass in self.mro[0:-1]:
+            # print(klass)
 
             if self.metadata:
                 source += '\n    """\n'
@@ -224,8 +255,16 @@ class SourceCodeMaker(object):
                 source += '\n    """\n'
 
             if len(self.methods.get(klass.__name__, "")) > 0:
+                # print("insdie if")
                 for method in self.methods[klass.__name__]:
-                    super_source = self._check_super_and_get_combined_source(klass, method)
+                    # print(method)
+                    actual_method = method[1]
+                    # print(actual_method)
+                    if isinstance(actual_method, property):
+                        # print("Inside isinstance(actual_method, property)")
+                        super_source = self._process_property_decorator(klass, actual_method)
+                    else:
+                        super_source = self._check_super_and_get_combined_source(klass, actual_method)
                     source += super_source
 
             else:
@@ -238,40 +277,97 @@ class SourceCodeMaker(object):
 
         return source
 
-    def _sort_methods_based_on_classname(self):
-        methods = {}
+    def _process_property_decorator(self, klass, method):
+        source = ""
+        fget = method.fget
+        fset = method.fset
+        fdel = method.fdel
 
-        for method in self.methods:
-            klassname = method[1].__qualname__.split(".")[0]
+        # ************** Working for one class - DONT TOUCH
+        # if fget is not None:
+        #     source += inspect.getsource(fget)
 
-            if klassname not in methods.keys():
-                methods[klassname] = []
+        # if fset is not None:
+        #     source += inspect.getsource(fset)
 
-            methods[klassname].append(method[1])
+        # if fdel is not None:
+        #     source += inspect.getsource(fdel)
+        # ************** Working for one class - DONT TOUCH
 
-        self.methods = methods
-    
+        # print()
+        # print(fget)
+        # print(fget.__name__)
+        # print()
+
+        # # Checking the mro for methods decorated with @property decorator
+        # if isinstance(method, property):
+        #     print("Inside isinstance(method, property)")
+        #     if method.fget is not None:
+        #         print("Inside fget")
+        #         super_methods.append(method.fget)
+        #     if method.fset is not None:
+        #         print("Inside fset")
+        #         super_methods.append(method.fset)
+        #     if method.fdel is not None:
+        #         print("Inside fdel")
+        #         super_methods.append(method.fdel)
+
+
+        return source
+
     def _check_super_and_get_combined_source(self, klass, method):
 
         temp_source = ""
         super_source = ""
         super_methods = []
 
+        # print(klass)
+        # print()
+        # print(method)
+        # print()
+
+        # Checking the mro for methods with the same name
         for cls in klass.mro()[0:-1]:
+            # print(cls)
             try:
                 met = getattr(cls, method.__name__)
             except AttributeError:
                 met = ""
+            
+            # print(met, "asdasd")
 
             if (met != "") and (met not in super_methods):
                 super_methods.append(met)
 
+        # # Checking the mro for methods decorated with @property decorator
+        # if isinstance(method, property):
+        #     print("Inside isinstance(method, property)")
+        #     if method.fget is not None:
+        #         print("Inside fget")
+        #         super_methods.append(method.fget)
+        #     if method.fset is not None:
+        #         print("Inside fset")
+        #         super_methods.append(method.fset)
+        #     if method.fdel is not None:
+        #         print("Inside fdel")
+        #         super_methods.append(method.fdel)
+        
+        # print()
+        # print(self.methods[klass.__name__])
+        # print(super_methods)
+        # print()
+
         length = len(super_methods)
 
+        # print("length", length)
         for index, method in enumerate(super_methods):
-
+            # print("Index", index)
+            # print("method", method)
+            # # print(method)
+            # print()
             temp_source = ""
             temp_source = inspect.getsource(method)
+
             super_source = "\n" + temp_source + super_source
 
             if self.metadata:         
@@ -283,7 +379,10 @@ class SourceCodeMaker(object):
 
             elif "super(" in temp_source:
                 if self.metadata and (index == (length - 1)):
-                    temp_source = "\n    # There is no method '" + method.__name__ + "' available in the Super Class of " + method.__qualname__.split(".")[0] + "\n" 
+                    temp_source = "\n    # There is no method '" \
+                                    + method.__name__ \
+                                    + "' available in the Super Class of " \
+                                    + method.__qualname__.split(".")[0] + "\n" 
                     super_source = temp_source + super_source
 
         return super_source

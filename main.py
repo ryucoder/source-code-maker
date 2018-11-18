@@ -7,20 +7,24 @@ from django.views.generic.dates import DateMixin
 
 from django.http import HttpResponse
 
+import pyclbr
+
+
 
 def main():
     print()
     # source = SourceCodeMaker(Hero)
     source = SourceCodeMaker(Hero, metadata=True)
-    # print(source.final_source_code)    
-    
+    # print(source.final_source_code)     
     source.dump_source_to_current_folder()
     # pprint(source.final_source_code)
     # pprint(source.attributes)
     # print()
     # pprint(source.methods)
     # print()
-    
+    # x = pyclbr.readmodule_ex("django.utils")
+    # print(x)
+
     # path = "type_absolute_path_of_folder_here"
     # source.dump_source_to_specific_folder(path)
 

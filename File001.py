@@ -44,6 +44,10 @@ class Zero(Base):
     def zero(self):
         print("Zero zero")
 
+    def hero(self):
+        print("Zero hero")
+        super()
+
 from django.utils.functional import cached_property
 
 class Hero(Zero):
@@ -55,7 +59,7 @@ class Hero(Zero):
     def zero():
         pass
 
-    @cached_property
+
     def main(self):
         print("Hero Main")
         super(Hero, self).main()
@@ -73,7 +77,7 @@ class Hero(Zero):
     @hero.deleter
     def hero(self, vars):
         print("Hero hero")
-        super(Hero, self).hero()
+        # super(Hero, self).hero()
 
 class Comments(object):
     """

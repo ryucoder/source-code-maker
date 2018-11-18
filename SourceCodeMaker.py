@@ -283,88 +283,52 @@ class SourceCodeMaker(object):
         fset = method.fset
         fdel = method.fdel
 
-        # ************** Working for one class - DONT TOUCH
-        # if fget is not None:
-        #     source += inspect.getsource(fget)
+        if fget is not None:
+            # source += inspect.getsource(fget)
+            source += self._check_super_and_get_combined_source(klass, method.fget, prop="fget")
 
-        # if fset is not None:
-        #     source += inspect.getsource(fset)
+        if fset is not None:
+            # source += inspect.getsource(fset)
+            source += self._check_super_and_get_combined_source(klass, method.fset, prop="fset")
 
-        # if fdel is not None:
-        #     source += inspect.getsource(fdel)
-        # ************** Working for one class - DONT TOUCH
-
-        # print()
-        # print(fget)
-        # print(fget.__name__)
-        # print()
-
-        # # Checking the mro for methods decorated with @property decorator
-        # if isinstance(method, property):
-        #     print("Inside isinstance(method, property)")
-        #     if method.fget is not None:
-        #         print("Inside fget")
-        #         super_methods.append(method.fget)
-        #     if method.fset is not None:
-        #         print("Inside fset")
-        #         super_methods.append(method.fset)
-        #     if method.fdel is not None:
-        #         print("Inside fdel")
-        #         super_methods.append(method.fdel)
-
+        if fdel is not None:
+            # source += inspect.getsource(fdel)
+            source += self._check_super_and_get_combined_source(klass, method.fdel, prop="fdel")
 
         return source
 
-    def _check_super_and_get_combined_source(self, klass, method):
+    def _check_super_and_get_combined_source(self, klass, method, prop="fget"):
 
         temp_source = ""
         super_source = ""
         super_methods = []
 
+        # print("**********************")
+        # print("klass")
         # print(klass)
+        # pprint(klass.mro()[0:-1])
         # print()
+        # print("method")
         # print(method)
         # print()
+        # print("**********************")
 
-        # Checking the mro for methods with the same name
         for cls in klass.mro()[0:-1]:
-            # print(cls)
-            try:
-                met = getattr(cls, method.__name__)
-            except AttributeError:
-                met = ""
             
-            # print(met, "asdasd")
+            if hasattr(cls, method.__name__):
 
-            if (met != "") and (met not in super_methods):
-                super_methods.append(met)
+                actual_attr = getattr(cls, method.__name__)
 
-        # # Checking the mro for methods decorated with @property decorator
-        # if isinstance(method, property):
-        #     print("Inside isinstance(method, property)")
-        #     if method.fget is not None:
-        #         print("Inside fget")
-        #         super_methods.append(method.fget)
-        #     if method.fset is not None:
-        #         print("Inside fset")
-        #         super_methods.append(method.fset)
-        #     if method.fdel is not None:
-        #         print("Inside fdel")
-        #         super_methods.append(method.fdel)
-        
-        # print()
-        # print(self.methods[klass.__name__])
-        # print(super_methods)
-        # print()
+                #looks like repetitive code but its required.
+                if isinstance(actual_attr, property):
+                    # Get fget, fset or fdel property of property class
+                    actual_attr = getattr(actual_attr, prop)
+
+                super_methods.append(actual_attr)
 
         length = len(super_methods)
 
-        # print("length", length)
         for index, method in enumerate(super_methods):
-            # print("Index", index)
-            # print("method", method)
-            # # print(method)
-            # print()
             temp_source = ""
             temp_source = inspect.getsource(method)
 

@@ -126,7 +126,12 @@ class SourceCodeMaker(object):
             temp = ''
     
             if self.metadata:
-                temp += '\n    # Attributes of Class ' + parent.__name__ + "\n"
+                # temp += '\n    # Attributes of Class ' + parent.__name__ + "\n"
+                temp += '\n'
+                temp += '    """' + "\n"
+                temp += '    Attributes of Class ' + parent.__name__ + "\n"
+                temp += '    """' + "\n"
+                # temp += '\n'
     
             class_attrs = self._get_attributes_of_one_class(parent)
 
@@ -170,6 +175,7 @@ class SourceCodeMaker(object):
                         temp += "\n    # Overwritten\n" 
                         for line in variable.splitlines():
                             temp += "    # " + line + "\n" 
+                        temp += "\n"
 
 
            # if temp is empty string i.e. class does not have any attributes defined
@@ -285,15 +291,15 @@ class SourceCodeMaker(object):
 
         if fget is not None:
             # source += inspect.getsource(fget)
-            source += self._check_super_and_get_combined_source(klass, method.fget, prop="fget")
+            source += self._check_super_and_get_combined_source(klass, fget, prop="fget")
 
         if fset is not None:
             # source += inspect.getsource(fset)
-            source += self._check_super_and_get_combined_source(klass, method.fset, prop="fset")
+            source += self._check_super_and_get_combined_source(klass, fset, prop="fset")
 
         if fdel is not None:
             # source += inspect.getsource(fdel)
-            source += self._check_super_and_get_combined_source(klass, method.fdel, prop="fdel")
+            source += self._check_super_and_get_combined_source(klass, fdel, prop="fdel")
 
         return source
 
@@ -319,7 +325,6 @@ class SourceCodeMaker(object):
 
                 actual_attr = getattr(cls, method.__name__)
 
-                #looks like repetitive code but its required.
                 if isinstance(actual_attr, property):
                     # Get fget, fset or fdel property of property class
                     actual_attr = getattr(actual_attr, prop)
@@ -363,12 +368,12 @@ class SourceCodeMaker(object):
         source_file = open(full_path, mode)
         
         # Writing the location of the file
-        source_file.write("'''" + "\n")
+        source_file.write('"""' + "\n")
         source_file.write("****************************************" + "\n")
         source_file.write("Location of the Class " + self.class_name.__name__ + " : " + "\n")
         source_file.write(location + "\n")
         source_file.write("****************************************" + "\n")
-        source_file.write("'''" + "\n")
+        source_file.write('"""' + "\n")
 
         # Writing the final source code the file
         for line in self.final_source_code.splitlines():

@@ -25,7 +25,7 @@ class Base:
 
     def hero(self):
         print("Base hero")
-        # super(Hero, self).hero()
+        super(Hero, self).hero()
 
 class Zero(Base):
     test = ""

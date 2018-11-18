@@ -410,6 +410,10 @@ class SourceCodeMaker(object):
             self._dump_file(folder_path, mode)
         else:
             raise Exception("Something is wrong with the current path of the file.")
+    
+    def ds2cf(self, mode="w"):
+        """ Shortcut method for dump_source_to_current_folder() """
+        self.dump_source_to_current_folder(mode=mode)
 
     def dump_source_to_specific_folder(self, folder_path=None):
         """ Takes location of a folder to store the newly created .py file """
@@ -418,6 +422,10 @@ class SourceCodeMaker(object):
             raise Exception("You must provide the folder_path keyword variable.")
         else:
             self._dump_file(folder_path)
+
+    def ds2sf(self, folder_path=None):
+        """ Shortcut method for dump_source_to_specific_folder() """
+        self.dump_source_to_current_folder(folder_path=folder_path)
 
     def get_raw_source(self):
         """ Returns the raw string format of the final source code of the class """

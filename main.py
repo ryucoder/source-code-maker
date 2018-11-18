@@ -16,7 +16,7 @@ def main():
     # source = SourceCodeMaker(Hero)
     source = SourceCodeMaker(Hero, metadata=True)
     # print(source.final_source_code)     
-    source.dump_source_to_current_folder()
+    source.ds2cf()
     # pprint(source.final_source_code)
     # pprint(source.attributes)
     # print()

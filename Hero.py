@@ -1,9 +1,9 @@
-'''
+"""
 ****************************************
 Location of the Class Hero : 
 c:\users\rajkanta\desktop\projects\source code\file001.py
 ****************************************
-'''
+"""
 
 class Hero(Zero):
 

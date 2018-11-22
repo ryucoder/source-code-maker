@@ -26,14 +26,8 @@ ModelFormMixin Correct
 
 
 Issues to solve: 
-1. DateMixin 
-    @cached_property
-    def uses_datetime_field(self):
 
-Solved
-
-
-2. If an attributes or code is written in between methods 
+1. If an attributes or code is written in between methods 
 it is not shown in SCM.
 
 E.g. HttpResponse 
@@ -44,19 +38,7 @@ else:
     __str__ = serialize
 
 
-3. Below code from HttpResponse is not coming in SCM
- 
-@property
-def content(self):
-    return b''.join(self._container)
-
-@content.setter
-def content(self, value):
-
-Solved
-
-
-4. HttpResponseBase not shown in SCM
+2. HttpResponseBase not shown in SCM
 
 @property
 def reason_phrase(self):
@@ -100,23 +82,12 @@ def _content_type_for_repr(self):
 __contains__ = has_header
 
 
-5. HttpResponseRedirectBase
+3. HttpResponseRedirectBase
 
 url = property(lambda self: self['Location'])
 
 
-6 . Paginator 
-
-@cached_property
-def count(self):
-    
-@cached_property
-def num_pages(self):
-
-@property
-def page_range(self):
-
-7. Queryset
+4. Queryset
 
 as_manager.queryset_only = True
 as_manager = classmethod(as_manager)
@@ -126,9 +97,9 @@ as_manager = classmethod(as_manager)
 
 
 Patterns across issues :- 
-1. getter, setter are not coming in SCM. (Hence deleter)
+1. getter, setter are not coming in SCM. (Hence deleter)            - Solved
 2. Any attribute defined in between methods is not coming in SCM
-3. Methods decorated with @cached_property is not coming in SCM.
+3. Methods decorated with @cached_property is not coming in SCM.    - Solved
 @cached_property is a class decorator
 
 

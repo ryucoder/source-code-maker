@@ -4,17 +4,15 @@ from File001 import Hero, Base, Zero, Comments
 
 from django.views.generic import CreateView
 from django.views.generic.dates import DateMixin
-
+from django.views.generic.list import Paginator
 from django.http import HttpResponse
-
-import pyclbr
 
 
 
 def main():
     print()
     # source = SourceCodeMaker(Hero)
-    source = SourceCodeMaker(DateMixin, metadata=True)
+    source = SourceCodeMaker(Paginator, metadata=True)
     # print(source.final_source_code)     
     source.ds2cf()
     # pprint(source.final_source_code)

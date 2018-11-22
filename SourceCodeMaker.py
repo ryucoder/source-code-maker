@@ -271,7 +271,7 @@ class SourceCodeMaker(object):
                     if isinstance(actual_method, property):
                         # print("Inside isinstance(actual_method, property)")
                         super_source = self._process_property_decorator(klass, actual_method)
-                    if self._is_decorated_method(actual_method):
+                    elif self._is_decorated_method(actual_method):
                         actual_method = self._extract_decorated_method(method)
                         # print("actual_method from _get_all...")
                         # print(actual_method)

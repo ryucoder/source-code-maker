@@ -4,15 +4,18 @@ from File001 import Hero, Base, Zero, Comments
 
 from django.views.generic import CreateView
 from django.views.generic.dates import DateMixin
-from django.views.generic.list import Paginator
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 
+from django.core.paginator import Page
+import inspect 
 
-
+print(inspect.getsource(Page))
+from django.core.paginator import Paginator
 def main():
     print()
     # source = SourceCodeMaker(Hero)
-    source = SourceCodeMaker(Paginator, metadata=True)
+    source = SourceCodeMaker(Page, metadata=True)
     # print(source.final_source_code)     
     source.ds2cf()
     # pprint(source.final_source_code)

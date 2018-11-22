@@ -206,7 +206,7 @@ class SourceCodeMaker(object):
         """ Only this function needs updating, rest of the code works great """
 
         attrs = ''
-        class_lines = inspect.getsource(class_name).splitlines()[1:]
+        class_lines = inspect.getsource(self.class_name).splitlines()[1:]
         is_multiline_comment_active = False
         comments = ['"""', "'''"]
 
@@ -338,6 +338,10 @@ class SourceCodeMaker(object):
             their support would be added 
         """
 
+        print()
+        print("method")
+        print(method)
+        print()
         method_name = method[0]
         klass = method[1]
         
@@ -372,12 +376,18 @@ class SourceCodeMaker(object):
 
                 actual_attr = getattr(cls, method.__name__)
 
-                if isinstance(actual_attr, property):
-                    # Get fget, fset or fdel property of property class
-                    actual_attr = getattr(actual_attr, prop)
-                
-                if self._is_decorated_method(actual_attr):
-                    actual_attr = self._extract_decorated_method((method.__name__, actual_attr))
+                print()
+                print(actual_attr.__class__)
+                print(actual_attr.__qualname__.split(".")[0] != "object")
+                print()
+
+                if actual_attr.__qualname__.split(".")[0] != "object": 
+                    if isinstance(actual_attr, property):
+                        # Get fget, fset or fdel property of property class
+                        actual_attr = getattr(actual_attr, prop)
+                    
+                    if self._is_decorated_method(actual_attr):
+                        actual_attr = self._extract_decorated_method((method.__name__, actual_attr))
 
                 super_methods.append(actual_attr)
 

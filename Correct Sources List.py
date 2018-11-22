@@ -10,7 +10,7 @@ MonthMixin Correct
 TemplateResponseMixin Correct
 WeekMixin Correct
 YearMixin Correct
-
+DateMixin Correct
 
 MRO count 3
 FormMixin Correct
@@ -25,32 +25,12 @@ ModelFormMixin Correct
 
 
 
-Update read me on how to add more magic methods
-
-1.
-
-__setitem__
-__delitem__
-__getitem__
-
-__deepcopy__
-__getstate__
-__setstate__
-__len__
-__bool__
-__nonzero__
-__and__
-__or__
-
-ALLOWED_MAGIC_METHODS = []
-
-
-
-
 Issues to solve: 
 1. DateMixin 
     @cached_property
     def uses_datetime_field(self):
+
+Solved
 
 
 2. If an attributes or code is written in between methods 
@@ -73,6 +53,7 @@ def content(self):
 @content.setter
 def content(self, value):
 
+Solved
 
 
 4. HttpResponseBase not shown in SCM

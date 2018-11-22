@@ -1,5 +1,6 @@
-import inspect  
 import os 
+import inspect  
+import types 
 
 from pprint import pprint 
 
@@ -263,12 +264,18 @@ class SourceCodeMaker(object):
             if len(self.methods.get(klass.__name__, "")) > 0:
                 # print("insdie if")
                 for method in self.methods[klass.__name__]:
+                    # print("method")
                     # print(method)
                     actual_method = method[1]
                     # print(actual_method)
                     if isinstance(actual_method, property):
                         # print("Inside isinstance(actual_method, property)")
                         super_source = self._process_property_decorator(klass, actual_method)
+                    if self._is_decorated_method(actual_method):
+                        actual_method = self._extract_decorated_method(method)
+                        # print("actual_method from _get_all...")
+                        # print(actual_method)
+                        super_source = self._check_super_and_get_combined_source(klass, actual_method)
                     else:
                         super_source = self._check_super_and_get_combined_source(klass, actual_method)
                     source += super_source
@@ -284,6 +291,11 @@ class SourceCodeMaker(object):
         return source
 
     def _process_property_decorator(self, klass, method):
+        """
+            This method is required to facilitate the retrieval of methods
+            decorated with @property decorator
+        """
+
         source = ""
         fget = method.fget
         fset = method.fset
@@ -303,6 +315,41 @@ class SourceCodeMaker(object):
 
         return source
 
+    def _is_decorated_method(self, method):
+        """ 
+            This method is required to facilitate the retrieval of methods 
+            decorated with @cached_property decorator from django 
+            As more decorators are encountered during testing, 
+            their support would be added. 
+        """
+        """ Code needs to be updated to support function, class and instance decorators. """
+
+        # It means that the method was decorated by a class decorator
+        if method.__class__ != types.FunctionType and (not inspect.isfunction(method)):
+           return True
+
+        return False
+
+    def _extract_decorated_method(self, method):
+        """ 
+            This method is required to facilitate the retrieval of methods 
+            decorated with @cached_property decorator from django 
+            As more decorators are encountered during testing, 
+            their support would be added 
+        """
+
+        method_name = method[0]
+        klass = method[1]
+        
+        for item in klass.__dict__:
+            actual_attr = getattr(klass, item)
+            
+            if (not item.startswith("__")) and inspect.isfunction(actual_attr):
+                names = actual_attr.__qualname__.split(".")
+               
+                if (names[0] == self.class_name.__name__) and (names[1] == method_name):
+                    return actual_attr
+        
     def _check_super_and_get_combined_source(self, klass, method, prop="fget"):
 
         temp_source = ""
@@ -328,6 +375,9 @@ class SourceCodeMaker(object):
                 if isinstance(actual_attr, property):
                     # Get fget, fset or fdel property of property class
                     actual_attr = getattr(actual_attr, prop)
+                
+                if self._is_decorated_method(actual_attr):
+                    actual_attr = self._extract_decorated_method((method.__name__, actual_attr))
 
                 super_methods.append(actual_attr)
 

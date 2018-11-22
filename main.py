@@ -14,7 +14,7 @@ import pyclbr
 def main():
     print()
     # source = SourceCodeMaker(Hero)
-    source = SourceCodeMaker(Hero, metadata=True)
+    source = SourceCodeMaker(DateMixin, metadata=True)
     # print(source.final_source_code)     
     source.ds2cf()
     # pprint(source.final_source_code)

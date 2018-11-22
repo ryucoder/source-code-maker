@@ -25,7 +25,11 @@ ModelFormMixin Correct
 
 
 # from django.core.paginator import Paginator
-# from django.core.paginator import Page
+
+
+# need to check in the mro properly
+# from django.core.paginator import Page 
+
 
 
 Issues to solve: 

@@ -252,9 +252,7 @@ class SourceCodeMaker(object):
 
         source = ""
 
-        # pprint(self.methods)
         for klass in self.mro[0:-1]:
-            # print(klass)
 
             if self.metadata:
                 source += '\n    """\n'
@@ -262,19 +260,14 @@ class SourceCodeMaker(object):
                 source += '\n    """\n'
 
             if len(self.methods.get(klass.__name__, "")) > 0:
-                # print("insdie if")
                 for method in self.methods[klass.__name__]:
-                    # print("method")
-                    # print(method)
+
                     actual_method = method[1]
-                    # print(actual_method)
+
                     if isinstance(actual_method, property):
-                        # print("Inside isinstance(actual_method, property)")
                         super_source = self._process_property_decorator(klass, actual_method)
                     elif self._is_decorated_method(actual_method):
                         actual_method = self._extract_decorated_method(method)
-                        # print("actual_method from _get_all...")
-                        # print(actual_method)
                         super_source = self._check_super_and_get_combined_source(klass, actual_method)
                     else:
                         super_source = self._check_super_and_get_combined_source(klass, actual_method)
@@ -346,7 +339,7 @@ class SourceCodeMaker(object):
         
         if hasattr(klass, "__dict__"): 
         # Above condition is required to support Page and Paginator classes simultaneously
-        
+
             for item in klass.__dict__:
                 actual_attr = getattr(klass, item)
                 

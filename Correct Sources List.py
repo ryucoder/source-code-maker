@@ -100,8 +100,14 @@ as_manager.queryset_only = True
 as_manager = classmethod(as_manager)
 
 
-5. SCM for Paginator not working for SCM for Page and vice-versa 
-Need a solution that works for every class
+5. if a method of a parent class was overwritten in a child class, 
+current message shown in metadata is 
+# No methods are defined in Class + name of the class
+which is wrong.
+
+Message should be
+# (Name of the method) was overwritten in (name of the class)
+
 
 
 

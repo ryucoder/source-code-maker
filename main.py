@@ -13,7 +13,7 @@ def main():
     print()
     # source = SourceCodeMaker(Hero)
 
-    source = SourceCodeMaker(Page, metadata=True)
+    source = SourceCodeMaker(CreateView, metadata=True)
     source.ds2cf()
 
     # path = "type_absolute_path_of_folder_here"

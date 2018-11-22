@@ -302,15 +302,12 @@ class SourceCodeMaker(object):
         fdel = method.fdel
 
         if fget is not None:
-            # source += inspect.getsource(fget)
             source += self._check_super_and_get_combined_source(klass, fget, prop="fget")
 
         if fset is not None:
-            # source += inspect.getsource(fset)
             source += self._check_super_and_get_combined_source(klass, fset, prop="fset")
 
         if fdel is not None:
-            # source += inspect.getsource(fdel)
             source += self._check_super_and_get_combined_source(klass, fdel, prop="fdel")
 
         return source
@@ -337,22 +334,27 @@ class SourceCodeMaker(object):
             As more decorators are encountered during testing, 
             their support would be added 
         """
+        """ Code needs to be updated to support function, class and instance decorators. """
 
-        print()
-        print("method")
-        print(method)
-        print()
+        # print()
+        # print("method")
+        # print(method)
+        # print()
+
         method_name = method[0]
         klass = method[1]
         
-        for item in klass.__dict__:
-            actual_attr = getattr(klass, item)
-            
-            if (not item.startswith("__")) and inspect.isfunction(actual_attr):
-                names = actual_attr.__qualname__.split(".")
-               
-                if (names[0] == self.class_name.__name__) and (names[1] == method_name):
-                    return actual_attr
+        if hasattr(klass, "__dict__"): 
+        # Above condition is required to support Page and Paginator classes simultaneously
+        
+            for item in klass.__dict__:
+                actual_attr = getattr(klass, item)
+                
+                if (not item.startswith("__")) and inspect.isfunction(actual_attr):
+                    names = actual_attr.__qualname__.split(".")
+                
+                    if (names[0] == self.class_name.__name__) and (names[1] == method_name):
+                        return actual_attr
         
     def _check_super_and_get_combined_source(self, klass, method, prop="fget"):
 
@@ -363,6 +365,7 @@ class SourceCodeMaker(object):
         # print("**********************")
         # print("klass")
         # print(klass)
+        # pprint(klass.mro())
         # pprint(klass.mro()[0:-1])
         # print()
         # print("method")
@@ -376,18 +379,13 @@ class SourceCodeMaker(object):
 
                 actual_attr = getattr(cls, method.__name__)
 
-                print()
-                print(actual_attr.__class__)
-                print(actual_attr.__qualname__.split(".")[0] != "object")
-                print()
-
-                if actual_attr.__qualname__.split(".")[0] != "object": 
-                    if isinstance(actual_attr, property):
-                        # Get fget, fset or fdel property of property class
-                        actual_attr = getattr(actual_attr, prop)
-                    
-                    if self._is_decorated_method(actual_attr):
-                        actual_attr = self._extract_decorated_method((method.__name__, actual_attr))
+                if isinstance(actual_attr, property):
+                    # Get fget, fset or fdel property of property class
+                    actual_attr = getattr(actual_attr, prop)
+                
+                if self._is_decorated_method(actual_attr):
+                    # Get the actual method that was decorated
+                    actual_attr = self._extract_decorated_method((method.__name__, actual_attr))
 
                 super_methods.append(actual_attr)
 

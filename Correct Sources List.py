@@ -100,6 +100,8 @@ as_manager.queryset_only = True
 as_manager = classmethod(as_manager)
 
 
+5. SCM for Paginator not working for SCM for Page and vice-versa 
+Need a solution that works for every class
 
 
 

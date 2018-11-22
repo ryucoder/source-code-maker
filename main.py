@@ -4,27 +4,17 @@ from File001 import Hero, Base, Zero, Comments
 
 from django.views.generic import CreateView
 from django.views.generic.dates import DateMixin
-from django.core.paginator import Paginator
 from django.http import HttpResponse
 
-from django.core.paginator import Page
-import inspect 
+from django.core.paginator import Paginator, Page
 
-print(inspect.getsource(Page))
-from django.core.paginator import Paginator
+
 def main():
     print()
     # source = SourceCodeMaker(Hero)
+
     source = SourceCodeMaker(Page, metadata=True)
-    # print(source.final_source_code)     
     source.ds2cf()
-    # pprint(source.final_source_code)
-    # pprint(source.attributes)
-    # print()
-    # pprint(source.methods)
-    # print()
-    # x = pyclbr.readmodule_ex("django.utils")
-    # print(x)
 
     # path = "type_absolute_path_of_folder_here"
     # source.dump_source_to_specific_folder(path)

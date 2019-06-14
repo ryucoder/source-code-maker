@@ -48,7 +48,7 @@ class Zero(Base):
         print("Zero hero")
         super()
 
-from django.utils.functional import cached_property
+# from django.utils.functional import cached_property
 
 class Hero(Zero):
     items = range(9)

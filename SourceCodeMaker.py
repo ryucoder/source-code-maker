@@ -5,6 +5,22 @@ import types
 from pprint import pprint 
 
 
+class ClassMaker(object):
+    pass 
+
+
+class AttributeMaker(object):
+    pass 
+
+
+class MethodMaker(object):
+    pass 
+
+
+class SourceCodeMaker(MethodMaker, AttributeMaker, ClassMaker):
+    pass 
+
+
 class SourceCodeMaker(object):
     class_name = None
     mro = None
@@ -127,12 +143,7 @@ class SourceCodeMaker(object):
             temp = ''
     
             if self.metadata:
-                # temp += '\n    # Attributes of Class ' + parent.__name__ + "\n"
-                temp += '\n'
-                temp += '    """' + "\n"
-                temp += '    Attributes of Class ' + parent.__name__ + "\n"
-                temp += '    """' + "\n"
-                # temp += '\n'
+                temp += '\n    # Attributes of Class ' + parent.__name__ + "\n"
     
             class_attrs = self._get_attributes_of_one_class(parent)
 
@@ -176,7 +187,6 @@ class SourceCodeMaker(object):
                         temp += "\n    # Overwritten\n" 
                         for line in variable.splitlines():
                             temp += "    # " + line + "\n" 
-                        temp += "\n"
 
 
            # if temp is empty string i.e. class does not have any attributes defined
@@ -206,7 +216,7 @@ class SourceCodeMaker(object):
         """ Only this function needs updating, rest of the code works great """
 
         attrs = ''
-        class_lines = inspect.getsource(self.class_name).splitlines()[1:]
+        class_lines = inspect.getsource(class_name).splitlines()[1:]
         is_multiline_comment_active = False
         comments = ['"""', "'''"]
 

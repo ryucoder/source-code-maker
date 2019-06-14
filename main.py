@@ -3,17 +3,16 @@ from SourceCodeMaker import SourceCodeMaker
 from File001 import Hero, Base, Zero, Comments
 
 from django.views.generic import CreateView
-from django.views.generic.dates import DateMixin
-from django.http import HttpResponse
-
-from django.core.paginator import Paginator, Page
+# from django.views.generic.dates import DateMixin
+# from django.http import HttpResponse
 
 
 def main():
     print()
     # source = SourceCodeMaker(Hero)
 
-    source = SourceCodeMaker(CreateView, metadata=True)
+    source = SourceCodeMaker(CreateView)
+    # source = SourceCodeMaker(CreateView, metadata=True)
     source.ds2cf()
 
     # path = "type_absolute_path_of_folder_here"

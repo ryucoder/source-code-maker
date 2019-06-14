@@ -46,38 +46,7 @@ class SourceCodeMaker(object):
         self.mro = self.class_name.mro()
         self.metadata = metadata
         self.list_and_separate_attributes_and_methods()
-        # self.attributes_and_methods = self._get_all_attrs_and_methods()
-        # self._seperate_attributes_and_methods()
         self.final_source_code = self._get_final_source_code()
-
-    # def _get_all_attrs_and_methods(self):
-    #     """ Returns the list of attributes and methods defined inside the class """
-
-    #     attrs = []
-    #     members = inspect.getmembers(self.class_name)
-
-    #     for member in members:
-    #         if (member[0].startswith("__") != True) or (member[0] in self.ALLOWED_MAGIC_METHODS):
-    #             # First condition adds all the non __name__ type variables
-    #             # Second conditions allows the __init__ method to be added
-    #             attrs.append(member)
-
-    #     return attrs
-    
-    # def _seperate_attributes_and_methods(self):
-
-    #     self.attributes = []
-    #     self.methods = []
-        
-    #     for item in self.attributes_and_methods:
-    #         if callable(item[1]):
-    #             self.methods.append(item)
-    #         else:
-    #             self.attributes.append(item)
-        
-    #     print(self.attributes)
-    #     print()
-    #     print(self.methods)
 
     def list_and_separate_attributes_and_methods(self):
         """ This method does 2 things """
@@ -262,102 +231,184 @@ class SourceCodeMaker(object):
 
         source = ""
 
-        for klass in self.mro[0:-1]:
+        print()
+        print()
+        pprint(self.methods)
+        print()
+        pprint(self.mro)
+        print()
 
-            if self.metadata:
-                source += '\n    """\n'
-                source += "    Methods defined in Class " + klass.__name__
-                source += '\n    """\n'
+        for klass in self.mro[:-1]:
+            print()
+            print("klass")
+            print(klass)
+            print()
+            print(inspect.getsource(klass))
+            print("***********DONE********")
+            print()
 
-            if len(self.methods.get(klass.__name__, "")) > 0:
-                for method in self.methods[klass.__name__]:
+            klass_source = inspect.getsource(klass)
 
-                    actual_method = method[1]
+            self._process_source_of_one_class(klass_source)
 
-                    if isinstance(actual_method, property):
-                        super_source = self._process_property_decorator(klass, actual_method)
-                    elif self._is_decorated_method(actual_method):
-                        actual_method = self._extract_decorated_method(method)
-                        super_source = self._check_super_and_get_combined_source(klass, actual_method)
-                    else:
-                        super_source = self._check_super_and_get_combined_source(klass, actual_method)
-                    source += super_source
-
-            else:
-                if self.metadata:
-                    source += "\n    # No methods are defined in Class " + klass.__name__ + "\n"
-
-        source += "\n"
 
         self.methods_source_code = source
 
         return source
 
-    def _process_property_decorator(self, klass, method):
-        """
-            This method is required to facilitate the retrieval of methods
-            decorated with @property decorator
-        """
+    def _process_source_of_one_class(self, klass_source):
 
-        source = ""
-        fget = method.fget
-        fset = method.fset
-        fdel = method.fdel
+        print("******")
+        print("Inside _process_source_of_one_class")
+        print()
 
-        if fget is not None:
-            source += self._check_super_and_get_combined_source(klass, fget, prop="fget")
+        methods_start = None 
+        methods_source = ""
 
-        if fset is not None:
-            source += self._check_super_and_get_combined_source(klass, fset, prop="fset")
+        for index, line in enumerate(klass_source.splitlines()):
+            stripped_line = line.strip()
+            if (methods_start != None) or stripped_line.startswith("@") or (stripped_line.split(" ")[0] == "def"):
+                
+                if methods_start == None:
+                    methods_start = index
 
-        if fdel is not None:
-            source += self._check_super_and_get_combined_source(klass, fdel, prop="fdel")
+                methods_source += line + "\n"
 
-        return source
+        print()
+        print("methods_start")
+        print(methods_start)
+        print()
+        print("methods_source")
+        # print(methods_source)
+        print()
 
-    def _is_decorated_method(self, method):
-        """ 
-            This method is required to facilitate the retrieval of methods 
-            decorated with @cached_property decorator from django 
-            As more decorators are encountered during testing, 
-            their support would be added. 
-        """
-        """ Code needs to be updated to support function, class and instance decorators. """
+        block_indexes = []
+        block_started = False
 
-        # It means that the method was decorated by a class decorator
-        if method.__class__ != types.FunctionType and (not inspect.isfunction(method)):
-           return True
+        block = ""
+        method_blocks = []
 
-        return False
+        for index, line in enumerate(methods_source.splitlines()):
+            # print()
+            print(line, " - Started: ", block_started)
+            # print()
+            if block_started == False and (line.startswith("    @") or line.startswith("    def ")):
+                # print(line, " - ", index)
+                block_started = True
+                block_indexes.append(index)
+            else: 
+                block_started = False
+                method_blocks.append(block)
 
-    def _extract_decorated_method(self, method):
-        """ 
-            This method is required to facilitate the retrieval of methods 
-            decorated with @cached_property decorator from django 
-            As more decorators are encountered during testing, 
-            their support would be added 
-        """
-        """ Code needs to be updated to support function, class and instance decorators. """
 
-        # print()
-        # print("method")
-        # print(method)
-        # print()
+        print()
+        print("method_blocks")
+        pprint(method_blocks)
+        print()
+        print("block_indexes")
+        print(block_indexes)
+        print()
 
-        method_name = method[0]
-        klass = method[1]
+    # def _get_all_methods_source(self):
+
+    #     source = ""
+
+    #     for klass in self.mro[0:-1]:
+
+    #         if self.metadata:
+    #             source += '\n    """\n'
+    #             source += "    Methods defined in Class " + klass.__name__
+    #             source += '\n    """\n'
+
+    #         if len(self.methods.get(klass.__name__, "")) > 0:
+    #             for method in self.methods[klass.__name__]:
+
+    #                 actual_method = method[1]
+
+    #                 if isinstance(actual_method, property):
+    #                     super_source = self._process_property_decorator(klass, actual_method)
+    #                 elif self._is_decorated_method(actual_method):
+    #                     actual_method = self._extract_decorated_method(method)
+    #                     super_source = self._check_super_and_get_combined_source(klass, actual_method)
+    #                 else:
+    #                     super_source = self._check_super_and_get_combined_source(klass, actual_method)
+    #                 source += super_source
+
+    #         else:
+    #             if self.metadata:
+    #                 source += "\n    # No methods are defined in Class " + klass.__name__ + "\n"
+
+    #     source += "\n"
+
+    #     self.methods_source_code = source
+
+    #     return source
+
+    # def _process_property_decorator(self, klass, method):
+    #     """
+    #         This method is required to facilitate the retrieval of methods
+    #         decorated with @property decorator
+    #     """
+
+    #     source = ""
+    #     fget = method.fget
+    #     fset = method.fset
+    #     fdel = method.fdel
+
+    #     if fget is not None:
+    #         source += self._check_super_and_get_combined_source(klass, fget, prop="fget")
+
+    #     if fset is not None:
+    #         source += self._check_super_and_get_combined_source(klass, fset, prop="fset")
+
+    #     if fdel is not None:
+    #         source += self._check_super_and_get_combined_source(klass, fdel, prop="fdel")
+
+    #     return source
+
+    # def _is_decorated_method(self, method):
+    #     """ 
+    #         This method is required to facilitate the retrieval of methods 
+    #         decorated with @cached_property decorator from django 
+    #         As more decorators are encountered during testing, 
+    #         their support would be added. 
+    #     """
+    #     """ Code needs to be updated to support function, class and instance decorators. """
+
+    #     # It means that the method was decorated by a class decorator
+    #     if method.__class__ != types.FunctionType and (not inspect.isfunction(method)):
+    #        return True
+
+    #     return False
+
+    # def _extract_decorated_method(self, method):
+    #     """ 
+    #         This method is required to facilitate the retrieval of methods 
+    #         decorated with @cached_property decorator from django 
+    #         As more decorators are encountered during testing, 
+    #         their support would be added 
+    #     """
+    #     """ Code needs to be updated to support function, class and instance decorators. """
+
+    #     # print()
+    #     # print("method")
+    #     # print(method)
+    #     # print()
+
+    #     method_name = method[0]
+    #     klass = method[1]
         
-        if hasattr(klass, "__dict__"): 
-        # Above condition is required to support Page and Paginator classes simultaneously
+    #     if hasattr(klass, "__dict__"): 
+    #     # Above condition is required to support Page and Paginator classes simultaneously
 
-            for item in klass.__dict__:
-                actual_attr = getattr(klass, item)
+    #         for item in klass.__dict__:
+    #             actual_attr = getattr(klass, item)
                 
-                if (not item.startswith("__")) and inspect.isfunction(actual_attr):
-                    names = actual_attr.__qualname__.split(".")
+    #             if (not item.startswith("__")) and inspect.isfunction(actual_attr):
+    #                 names = actual_attr.__qualname__.split(".")
                 
-                    if (names[0] == self.class_name.__name__) and (names[1] == method_name):
-                        return actual_attr
+    #                 if (names[0] == self.class_name.__name__) and (names[1] == method_name):
+    #                     return actual_attr
         
     def _check_super_and_get_combined_source(self, klass, method, prop="fget"):
 
@@ -486,6 +537,10 @@ class SourceCodeMaker(object):
 
     def ds2sf(self, folder_path=None):
         """ Shortcut method for dump_source_to_specific_folder() """
+        if folder_path is None: 
+            message = "You must pass the path where the source code needs to be stored."
+            raise Exception(message)
+
         self.dump_source_to_current_folder(folder_path=folder_path)
 
     def get_raw_source(self):

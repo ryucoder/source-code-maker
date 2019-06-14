@@ -11,7 +11,7 @@ def main():
     print()
     # source = SourceCodeMaker(Hero)
 
-    source = SourceCodeMaker(CreateView)
+    source = SourceCodeMaker(Base)
     # source = SourceCodeMaker(CreateView, metadata=True)
     source.ds2cf()
 

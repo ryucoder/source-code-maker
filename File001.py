@@ -27,6 +27,14 @@ class Base:
         print("Base hero")
         super(Hero, self).hero()
 
+    def mero(self):
+        print("Base hero")
+        super(Hero, self).hero()
+
+        def mainX():
+            pass
+
+
 class Zero(Base):
     test = ""
     lifetime = None
